@@ -1,6 +1,6 @@
 package com.smart.tech.start;
 
-import org.junit.jupiter.api.BeforeEach;
+import com.smart.tech.start.entities.Client;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

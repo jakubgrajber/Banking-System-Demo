@@ -1,7 +1,5 @@
 package com.smart.tech.start.entities;
 
-import com.smart.tech.start.Client;
-
 import java.util.ArrayList;
 import java.util.List;
 

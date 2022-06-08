@@ -2,6 +2,7 @@ package com.smart.tech.start;
 
 
 import com.smart.tech.start.entities.Account;
+import com.smart.tech.start.entities.Client;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

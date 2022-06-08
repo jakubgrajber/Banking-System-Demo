@@ -1,4 +1,4 @@
-package com.smart.tech.start;
+package com.smart.tech.start.entities;
 
 public class Client {
 
