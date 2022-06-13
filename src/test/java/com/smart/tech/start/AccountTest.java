@@ -1,8 +1,10 @@
 package com.smart.tech.start;
 
 
-import com.smart.tech.start.entities.Account;
-import com.smart.tech.start.entities.Client;
+import com.smart.tech.start.entities.account.Account;
+import com.smart.tech.start.entities.client.Client;
+import com.smart.tech.start.entities.client.Person;
+import com.smart.tech.start.entities.account.PersonalAccount;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AccountTest {
 
     private Account account;
-    private Client client1;
+    private Person client1;
 
     private static final int ZERO = 0;
     private static final int DEPOSIT_VALUE = 100;
@@ -22,13 +24,13 @@ public class AccountTest {
     private static final int WITHDRAW_VALUE = 100;
     private static final int TRANSACTION_LIMIT = 5000;
     private static final int MORE_THAN_TRANSACTION_LIMIT = 6000;
-    private static final Client SECOND_CLIENT = new Client("example", "example");
+    private static final Client SECOND_CLIENT = new Person("example", "example");
 
 
     @BeforeEach
     public void setup() {
-        client1 = new Client("X", "Y");
-        account = new Account(client1);
+        client1 = new Person("X", "Y");
+        account = new PersonalAccount(client1);
     }
 
     @Test

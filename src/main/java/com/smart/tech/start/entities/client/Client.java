@@ -1,6 +1,6 @@
-package com.smart.tech.start.entities;
+package com.smart.tech.start.entities.client;
 
-public class Client {
+public abstract class Client {
 
     private final String firstname;
     private final String lastname;

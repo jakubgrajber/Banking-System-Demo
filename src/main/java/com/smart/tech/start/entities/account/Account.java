@@ -1,9 +1,11 @@
-package com.smart.tech.start.entities;
+package com.smart.tech.start.entities.account;
+
+import com.smart.tech.start.entities.client.Client;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Account {
+public abstract class Account {
 
     private int balance =0;
     private int transactionLimit=1500;
