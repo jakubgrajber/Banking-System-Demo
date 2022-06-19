@@ -1,6 +1,8 @@
 package com.smart.tech.start.config;
 
 
+
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -36,7 +38,6 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                         .and()
                         .formLogin()
-                        .loginPage("/showMyLoginPage")
                         .loginProcessingUrl("/authenticateTheUser")
                         .permitAll();
             } catch (Exception e) {

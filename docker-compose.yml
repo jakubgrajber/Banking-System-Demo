@@ -1,20 +1,33 @@
 services:
-  java:
+  app:
+    image: "banking-system-demo:latest"
     build:
       context: .
-      dockerfile: java.dockerfile
+    container_name: app
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/capgemini
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+#      - SPRING_MVC_VIEW_SUFFIX=.jsp
+#      - SPRING_MVC_VIEW_PREFIX=/WEB-INF/jsp/
+    ports:
+      - 8080:8080
   db:
     image: postgres
+    container_name: db
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
       POSTGRES_DB: capgemini
     ports:
-      - "5432:5432"
+      - 5432:5432
   pgadmin:
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
-      - "5050:80"
+      - 5050:80
