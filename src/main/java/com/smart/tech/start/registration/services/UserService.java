@@ -2,12 +2,17 @@ package com.smart.tech.start.registration.services;
 
 import com.smart.tech.start.registration.models.User;
 import com.smart.tech.start.registration.repositories.UserRepository;
+import com.smart.tech.start.registration.token.ConfirmationToken;
+import com.smart.tech.start.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -17,6 +22,7 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final ConfirmationTokenService confirmationTokenService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -37,6 +43,20 @@ public class UserService implements UserDetailsService {
 
          userRepository.save(user);
 
-         return "it works";
+         String token = UUID.randomUUID().toString();
+         ConfirmationToken confirmationToken = new ConfirmationToken(
+                 token,
+                 LocalDateTime.now(),
+                 LocalDateTime.now().plusMinutes(15),
+                 user
+         );
+
+         confirmationTokenService.saveConfirmationToken(confirmationToken);
+
+         return token;
      }
+
+    public int enableUser(String email) {
+        return userRepository.enableUser(email);
+    }
 }
