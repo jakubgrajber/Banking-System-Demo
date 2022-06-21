@@ -1,4 +1,4 @@
-package com.smart.tech.start.config;
+package com.smart.tech.start.security.config;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

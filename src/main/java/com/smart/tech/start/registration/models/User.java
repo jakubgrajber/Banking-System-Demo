@@ -25,10 +25,10 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(nullable = false, length = 25)
-    private String firstname;
+    private String firstName;
 
     @Column(nullable = false, length = 25)
-    private String lastname;
+    private String lastName;
 
     @Column(nullable = false, length = 64)
     private String password;
@@ -39,15 +39,16 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
-    private Boolean locked;
+    private Boolean locked = false;
 
-    private Boolean enabled;
+    private Boolean enabled = false;
 
-    public User(String firstname, String lastname, String password, String email) {
-        this.firstname = firstname;
-        this.lastname = lastname;
+    public User(String firstName, String lastName, String password, String email, UserRole userRole) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.password = password;
         this.email = email;
+        this.userRole = userRole;
     }
 
     @Override
