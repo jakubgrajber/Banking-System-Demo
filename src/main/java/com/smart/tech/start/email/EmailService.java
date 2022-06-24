@@ -28,6 +28,7 @@ public class EmailService implements EmailSender{
             messageHelper.setTo(to);
             messageHelper.setSubject("Banking System Demo - User account confirmation");
             messageHelper.setFrom("bsd@example.com");
+            mailSender.send(mimeMessage);
         } catch (MessagingException exc) {
             LOGGER.error("Failed to send email", exc);
             throw new IllegalStateException("Failed to send email");

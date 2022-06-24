@@ -11,8 +11,6 @@ services:
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-#      - SPRING_MVC_VIEW_SUFFIX=.jsp
-#      - SPRING_MVC_VIEW_PREFIX=/WEB-INF/jsp/
     ports:
       - 8080:8080
   db:
@@ -34,3 +32,13 @@ services:
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
       - 5050:80
+  maildev:
+    image: maildev/maildev
+    container_name: maildev
+    depends_on:
+      - db
+    ports:
+      - 1080:1080
+      - 1025:1025
+
+

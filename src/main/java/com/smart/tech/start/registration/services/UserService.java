@@ -30,7 +30,7 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, email)));
     }
 
-     public String singUpUser(User user){
+     public String signUpUser(User user){
          boolean userExists = userRepository.findByEmail(user.getEmail()).isPresent();
 
          if (userExists){
