@@ -1,6 +1,7 @@
 package com.smart.tech.start.email;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -13,9 +14,9 @@ import javax.mail.internet.MimeMessage;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class EmailService implements EmailSender{
 
-    private final Logger LOGGER = LoggerFactory.getLogger(EmailService.class);
     private final JavaMailSender mailSender;
 
     @Override
@@ -30,7 +31,7 @@ public class EmailService implements EmailSender{
             messageHelper.setFrom("bsd@example.com");
             mailSender.send(mimeMessage);
         } catch (MessagingException exc) {
-            LOGGER.error("Failed to send email", exc);
+            log.error("Failed to send email", exc);
             throw new IllegalStateException("Failed to send email", exc);
         }
     }
