@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class RegistrationService {
 
     private final EmailValidator emailValidator;
@@ -44,7 +45,6 @@ public class RegistrationService {
         return token;
     }
 
-    @Transactional
     public String confirmToken(String token) {
         ConfirmationToken confirmationToken = confirmationTokenService
                 .getToken(token)
