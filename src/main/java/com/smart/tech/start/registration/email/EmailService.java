@@ -1,4 +1,4 @@
-package com.smart.tech.start.email;
+package com.smart.tech.start.registration.email;
 
 import com.smart.tech.start.config.MailConfigProperties;
 import lombok.AllArgsConstructor;

@@ -1,7 +1,7 @@
-package com.smart.tech.start.registration.services;
+package com.smart.tech.start.registration.user;
 
-import com.smart.tech.start.registration.models.User;
-import com.smart.tech.start.registration.repositories.UserRepository;
+import com.smart.tech.start.registration.user.User;
+import com.smart.tech.start.registration.user.UserRepository;
 import com.smart.tech.start.registration.token.ConfirmationToken;
 import com.smart.tech.start.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;

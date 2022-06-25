@@ -1,6 +1,5 @@
-package com.smart.tech.start.registration.repositories;
+package com.smart.tech.start.registration.user;
 
-import com.smart.tech.start.registration.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

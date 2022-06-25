@@ -1,6 +1,6 @@
 package com.smart.tech.start.registration.token;
 
-import com.smart.tech.start.registration.models.User;
+import com.smart.tech.start.registration.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

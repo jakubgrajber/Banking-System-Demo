@@ -1,9 +1,10 @@
-package com.smart.tech.start.registration.services;
+package com.smart.tech.start.registration.registration;
 
-import com.smart.tech.start.email.EmailSender;
-import com.smart.tech.start.registration.models.RegistrationRequest;
-import com.smart.tech.start.registration.models.User;
-import com.smart.tech.start.registration.models.UserRole;
+import com.smart.tech.start.registration.email.EmailSender;
+import com.smart.tech.start.registration.email.EmailValidator;
+import com.smart.tech.start.registration.user.UserService;
+import com.smart.tech.start.registration.user.User;
+import com.smart.tech.start.registration.user.UserRole;
 import com.smart.tech.start.registration.token.ConfirmationToken;
 import com.smart.tech.start.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;

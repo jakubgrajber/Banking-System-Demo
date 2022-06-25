@@ -1,7 +1,7 @@
 package com.smart.tech.start.registration.controllers;
 
-import com.smart.tech.start.registration.models.RegistrationRequest;
-import com.smart.tech.start.registration.services.RegistrationService;
+import com.smart.tech.start.registration.registration.RegistrationRequest;
+import com.smart.tech.start.registration.registration.RegistrationService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

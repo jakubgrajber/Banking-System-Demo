@@ -1,4 +1,4 @@
-package com.smart.tech.start.registration.models;
+package com.smart.tech.start.registration.user;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.smart.tech.start.registration.services;
+package com.smart.tech.start.registration.email;
 
 
 import org.springframework.stereotype.Service;
