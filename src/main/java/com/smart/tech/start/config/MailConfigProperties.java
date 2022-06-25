@@ -13,6 +13,5 @@ public class MailConfigProperties {
 
     private String subject;
     private String senderEmail;
-    private String emailTemplate;
     private String encoding;
 }
