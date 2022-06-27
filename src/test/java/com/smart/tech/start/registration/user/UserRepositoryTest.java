@@ -48,6 +48,22 @@ class UserRepositoryTest {
         assertFalse(optionalUser.isPresent());
     }
 
+    @Test
+    @DisplayName("Check if user can be enabled by his email")
+    void shouldBeAbleToEnableUserByHisEmail() {
+        // given
+        User user = new User(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
+        userRepository.save(user);
+
+        // when
+        userRepository.enableUser(EMAIL);
+
+        // then
+        assertTrue(userRepository.findByEmail(EMAIL).orElseThrow().getEnabled());
+    }
+
+
+
 
 
 }
