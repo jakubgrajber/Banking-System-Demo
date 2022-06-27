@@ -22,11 +22,6 @@ class UserRepositoryTest {
     private final static String PASSWORD = "password";
     private final static String EMAIL = "j.h@example.com";
 
-    @AfterEach
-    void tearDown() {
-        userRepository.deleteAll();
-    }
-
     @Test
     @DisplayName("Check if user can be found by his email")
     void shouldBeAbleToFindUserByHisEmail() {

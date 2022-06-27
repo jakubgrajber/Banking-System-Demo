@@ -33,12 +33,6 @@ class ConfirmationTokenRepositoryTest {
     private final static int TIME_AFTER_WHICH_TOKEN_EXPIRES_IN_MINUTES = 15;
     private final LocalDateTime EXPIRES_AT = CREATED_AT.plusMinutes(TIME_AFTER_WHICH_TOKEN_EXPIRES_IN_MINUTES);
 
-    @AfterEach
-    void tearDown() {
-        confirmationTokenRepository.deleteAll();
-        userRepository.deleteAll();
-    }
-
     @Test
     @DisplayName("Check if token can be found by its value")
     void itShouldCheckIfTokenExists() {
