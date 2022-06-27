@@ -1,6 +1,5 @@
-package com.smart.tech.start.web;
+package com.smart.tech.start.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smart.tech.start.registration.registration.RegistrationRequest;
 import com.smart.tech.start.registration.user.UserRepository;
 import org.junit.jupiter.api.DisplayName;
