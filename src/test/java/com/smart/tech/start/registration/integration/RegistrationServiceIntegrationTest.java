@@ -1,5 +1,7 @@
-package com.smart.tech.start.registration.registration;
+package com.smart.tech.start.registration.integration;
 
+import com.smart.tech.start.registration.registration.RegistrationRequest;
+import com.smart.tech.start.registration.registration.RegistrationService;
 import com.smart.tech.start.registration.token.ConfirmationToken;
 import com.smart.tech.start.registration.token.ConfirmationTokenRepository;
 import com.smart.tech.start.registration.token.ConfirmationTokenService;
