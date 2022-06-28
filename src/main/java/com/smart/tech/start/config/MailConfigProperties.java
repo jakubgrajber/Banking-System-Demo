@@ -14,4 +14,5 @@ public class MailConfigProperties {
     private String subject;
     private String senderEmail;
     private String encoding;
+    private int confirmationTimeInMinutes;
 }

@@ -2,3 +2,5 @@ mail:
   subject: Banking System Demo - User account confirmation
   senderEmail: bsd@example.com
   encoding: utf-8
+  confirmationTimeInMinutes: 15
+
