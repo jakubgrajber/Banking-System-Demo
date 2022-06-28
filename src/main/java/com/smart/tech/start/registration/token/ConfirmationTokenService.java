@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -15,6 +16,8 @@ public class ConfirmationTokenService {
 
     private final ConfirmationTokenRepository confirmationTokenRepository;
 
+    private final Clock clock;
+
     public void saveConfirmationToken(ConfirmationToken token){
         confirmationTokenRepository.save(token);
     }
@@ -25,6 +28,6 @@ public class ConfirmationTokenService {
 
     public void setConfirmedAt(String token) {
         confirmationTokenRepository.updateConfirmedAt(
-                token, LocalDateTime.now());
+                token, LocalDateTime.now(clock));
     }
 }
