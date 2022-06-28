@@ -6,6 +6,7 @@ import com.smart.tech.start.registration.user.UserRole;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -74,6 +75,24 @@ class ConfirmationTokenRepositoryTest {
         ConfirmationToken token = tokenOptional.orElse(new ConfirmationToken());
 
         assertEquals(confirmationTime, token.getConfirmedAt());
+    }
+
+    @Test
+    @DisplayName("Check if token is updated with proper expiration date")
+    void itShouldCheckIfTokenIsUpdatedWithExpirationDate() {
+
+        // given
+        saveNewToken();
+
+        // when
+        LocalDateTime confirmationTime = LocalDateTime.now();
+        confirmationTokenRepository.updateExpiresAt(TOKEN_STRING, confirmationTime);
+
+        // then
+        Optional<ConfirmationToken> tokenOptional = confirmationTokenRepository.findByToken(TOKEN_STRING);
+        ConfirmationToken token = tokenOptional.orElse(new ConfirmationToken());
+
+        assertEquals(confirmationTime, token.getExpiresAt());
     }
 
     private void saveNewToken() {

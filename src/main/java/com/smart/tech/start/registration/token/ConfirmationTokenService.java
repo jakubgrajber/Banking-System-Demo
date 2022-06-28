@@ -30,4 +30,8 @@ public class ConfirmationTokenService {
         confirmationTokenRepository.updateConfirmedAt(
                 token, LocalDateTime.now(clock));
     }
+
+    public void setExpiresAt(String token, LocalDateTime time){
+        confirmationTokenRepository.updateExpiresAt(token, time);
+    }
 }

@@ -50,9 +50,6 @@ class ConfirmationTokenServiceTest {
     @Test
     void canGetToken() {
 
-        // given
-        ConfirmationToken confirmationToken = new ConfirmationToken();
-
         // when
         confirmationTokenService.getToken(TOKEN_VALUE);
 
@@ -63,13 +60,20 @@ class ConfirmationTokenServiceTest {
     @Test
     void canSetConfirmedAt() {
 
-        // given
-        ConfirmationToken confirmationToken = new ConfirmationToken();
-
         // when
         confirmationTokenService.setConfirmedAt(TOKEN_VALUE);
 
         // then
         verify(confirmationTokenRepository).updateConfirmedAt(TOKEN_VALUE, LocalDateTime.now(clock));
+    }
+
+    @Test
+    void canSetExpiresAt() {
+
+        // when
+        confirmationTokenService.setExpiresAt(TOKEN_VALUE, LocalDateTime.now(clock));
+
+        // then
+        verify(confirmationTokenRepository).updateExpiresAt(TOKEN_VALUE, LocalDateTime.now(clock));
     }
 }
