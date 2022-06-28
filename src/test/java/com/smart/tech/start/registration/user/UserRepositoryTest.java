@@ -1,6 +1,5 @@
 package com.smart.tech.start.registration.user;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,9 +60,4 @@ class UserRepositoryTest {
         // then
         assertTrue(userRepository.findByEmail(EMAIL).orElseThrow().getEnabled());
     }
-
-
-
-
-
 }
