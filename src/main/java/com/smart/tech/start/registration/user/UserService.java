@@ -54,7 +54,7 @@ public class UserService implements UserDetailsService {
          ConfirmationToken confirmationToken = new ConfirmationToken(
                  token,
                  LocalDateTime.now(),
-                 LocalDateTime.now().plusMinutes(mailConfigProperties.getConfirmationTimeInMinutes()),
+                 LocalDateTime.now().plus(mailConfigProperties.getConfirmationTime()),
                  user
          );
 

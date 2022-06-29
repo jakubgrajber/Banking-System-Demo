@@ -7,6 +7,7 @@ import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +22,8 @@ import static org.mockito.Mockito.*;
 
 @ContextConfiguration(classes = PasswordEncoderTestContextConfig.class)
 @SpringBootTest(classes = MailConfigProperties.class)
+@EnableConfigurationProperties(MailConfigProperties.class)
+
 class UserServiceTest {
 
     @Mock
