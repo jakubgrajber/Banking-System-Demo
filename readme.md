@@ -5,3 +5,8 @@
 
 ![functionalities](assets/Functionalities.jpg)
 
+### - REST API
+#### Endpoints:
+- POST /api/registration - register new user
+- GET /api/registration/confirmation?token= - provide user with verification link
+
