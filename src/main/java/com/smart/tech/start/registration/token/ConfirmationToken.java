@@ -8,6 +8,13 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * ConfirmationToken is an Entity used for confirmation of users registration process.
+ *
+ * It is created when the user registers a new user account, then it is injected into
+ * the verification link and sent to the user's email address.
+ */
+
 @Getter
 @Setter
 @NoArgsConstructor

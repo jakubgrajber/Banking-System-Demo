@@ -12,6 +12,11 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
 
+/**
+ * User is a main entity and it is used to registration and login process.
+ * It implements UserDetails and in our case the username is actually the user's email.
+ */
+
 @Entity
 @Table(name = "users")
 @Getter
