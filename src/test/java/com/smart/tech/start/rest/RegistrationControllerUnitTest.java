@@ -1,13 +1,17 @@
 package com.smart.tech.start.rest;
 
+import com.smart.tech.start.registration.email.EmailSender;
+import com.smart.tech.start.registration.email.EmailValidator;
 import com.smart.tech.start.registration.registration.RegistrationRequest;
-import com.smart.tech.start.registration.user.User;
-import com.smart.tech.start.registration.user.UserRepository;
-import com.smart.tech.start.registration.user.UserRole;
+import com.smart.tech.start.registration.registration.RegistrationService;
+import com.smart.tech.start.registration.token.ConfirmationTokenService;
 import com.smart.tech.start.registration.user.UserService;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,10 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -30,24 +31,43 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureJsonTesters
 @Transactional
-public class RegistrationControllerTest {
+public class RegistrationControllerUnitTest {
+
+    @Autowired
+    MockMvc mockMvc;
+
+    @Autowired
+    JacksonTester<RegistrationRequest> registrationRequestTester;
+
+    @Mock
+    RegistrationService registrationService;
+    @Mock
+    EmailValidator emailValidator;
+    @Mock
+    UserService userService;
+    @Mock
+    ConfirmationTokenService confirmationTokenService;
+    @Mock
+    EmailSender emailSender;
+
+    AutoCloseable autoCloseable;
 
     private static final String FIRSTNAME = "James";
     private static final String LASTNAME = "Hetfield";
     private static final String PASSWORD = "password";
     private static final String EMAIL = "j.h@example.com";
 
-    @Autowired
-    MockMvc mockMvc;
+    @BeforeEach
+    void setUp() {
+        autoCloseable = MockitoAnnotations.openMocks(this);
+        registrationService = new RegistrationService(emailValidator, userService, confirmationTokenService, emailSender);
 
-    @Autowired
-    UserRepository userRepository;
+    }
 
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    JacksonTester<RegistrationRequest> registrationRequestTester;
+    @AfterEach
+    void tearDown() throws Exception {
+        autoCloseable.close();
+    }
 
     @Test
     @DisplayName("POST api/registration - register new user")
@@ -73,20 +93,5 @@ public class RegistrationControllerTest {
 
         // then
         assertEquals(HttpStatus.BAD_REQUEST.value(), status);
-    }
-
-    @Test
-    @DisplayName("GET api/registration/confirmation?token= - provide user with verification link")
-    public void confirm_validToken_success() throws Exception {
-
-        //given
-        User user = new User(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
-        String token = userService.signUpUser(user);
-
-        // when - then
-        mockMvc.perform(get("/api/registration/confirmation?token=" + token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(token))
-                .andExpect(status().isOk());
     }
 }
