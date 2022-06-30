@@ -18,7 +18,9 @@ import java.util.Collections;
  */
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", indexes = {
+        @Index(name = "users_firstName_lastName_email", columnList = "firstName, lastName, email")
+})
 @Getter
 @Setter
 @EqualsAndHashCode

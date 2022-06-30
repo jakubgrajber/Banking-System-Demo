@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 /**
  * ConfirmationToken is an Entity used for confirmation of users registration process.
- *
+ * <p>
  * It is created when the user registers a new user account, then it is injected into
  * the verification link and sent to the user's email address.
  */
@@ -19,6 +19,9 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @Entity
+@Table(name = "confirmation_tokens", indexes = {
+        @Index(name = "tokens_stringValue", columnList = "token")
+})
 public class ConfirmationToken {
 
     @Id
