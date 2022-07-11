@@ -10,3 +10,8 @@ mail:
   senderEmail: bsd@example.com
   encoding: utf-8
   confirmationTime: 15m
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
