@@ -1,8 +1,9 @@
 services:
   app:
-    image: "banking-system-demo:latest"
+    image: "user"
     build:
-      context: .
+      context: ./user
+      dockerfile: Dockerfile
     container_name: app
     depends_on:
       - db

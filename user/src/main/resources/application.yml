@@ -1,0 +1,12 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: user
+
+mail:
+  subject: Banking System Demo - User account confirmation
+  senderEmail: bsd@example.com
+  encoding: utf-8
+  confirmationTime: 15m
