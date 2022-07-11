@@ -13,6 +13,7 @@
 
   <modules>
     <module>user</module>
+      <module>notifications</module>
   </modules>
 
   <properties>
