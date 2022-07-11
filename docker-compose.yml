@@ -1,10 +1,10 @@
 services:
-  app:
+  userApp:
     image: "user"
     build:
       context: ./user
       dockerfile: Dockerfile
-    container_name: app
+    container_name: userApp
     depends_on:
       - db
     environment:
@@ -14,6 +14,25 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     ports:
       - 8080:8080
+
+
+  notificationsApp:
+    image: "notifications"
+    build:
+      context: ./notifications
+      dockerfile: Dockerfile
+    container_name: notificationsApp
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/capgemini
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    ports:
+      - 8081:8081
+
+
   db:
     image: postgres
     container_name: db
@@ -23,6 +42,8 @@ services:
       POSTGRES_DB: capgemini
     ports:
       - 5432:5432
+
+
   pgadmin:
     image: dpage/pgadmin4
     depends_on:
@@ -33,6 +54,8 @@ services:
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
       - 5050:80
+
+
   maildev:
     image: maildev/maildev
     container_name: maildev
