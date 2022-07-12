@@ -1,4 +1,4 @@
-package com.smart.tech.start.config;
+package com.smart.tech.start.registration.config;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,10 +14,6 @@ import java.time.temporal.ChronoUnit;
 @Getter
 @Setter
 public class MailConfigProperties {
-
-    private String subject;
-    private String senderEmail;
-    private String encoding;
 
     @DurationUnit(ChronoUnit.MINUTES)
     private Duration confirmationTime;

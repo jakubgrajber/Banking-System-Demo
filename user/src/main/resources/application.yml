@@ -4,11 +4,14 @@ server:
 spring:
   application:
     name: user
+  kafka:
+    producer:
+      bootstrap-servers:
+        - broker:29092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 mail:
-  subject: Banking System Demo - User account confirmation
-  senderEmail: bsd@example.com
-  encoding: utf-8
   confirmationTime: 15m
 
 eureka:

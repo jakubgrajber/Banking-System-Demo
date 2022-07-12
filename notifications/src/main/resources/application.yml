@@ -4,8 +4,24 @@ server:
 spring:
   application:
     name: notifications
+  kafka:
+    consumer:
+      properties:
+        spring.json.trusted.packages: "*"
+      bootstrap-servers:
+        - broker:29092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: app
+      auto-offset-reset: earliest
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
 
 eureka:
   client:
     service-url:
       defaultZone: http://eureka-server:8761/eureka
+
+
+mail:
+  subject: Banking System Demo - User account confirmation
+  senderEmail: bsd@example.com
+  encoding: utf-8

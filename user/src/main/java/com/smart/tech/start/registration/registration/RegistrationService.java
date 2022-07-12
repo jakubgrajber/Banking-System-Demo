@@ -1,13 +1,14 @@
 package com.smart.tech.start.registration.registration;
 
-import com.smart.tech.start.registration.email.EmailSender;
 import com.smart.tech.start.registration.email.EmailValidator;
+import com.smart.tech.start.registration.event.UserRegisteredEvent;
 import com.smart.tech.start.registration.user.UserService;
 import com.smart.tech.start.registration.user.User;
 import com.smart.tech.start.registration.user.UserRole;
 import com.smart.tech.start.registration.token.ConfirmationToken;
 import com.smart.tech.start.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +22,7 @@ public class RegistrationService {
     private final EmailValidator emailValidator;
     private final UserService userService;
     private final ConfirmationTokenService confirmationTokenService;
-    private final EmailSender emailSender;
+    private final KafkaTemplate<String, UserRegisteredEvent> kafkaTemplate;
 
     public String register(RegistrationRequest request) {
 
@@ -40,7 +41,15 @@ public class RegistrationService {
         );
 
         String link = "http://localhost:8080/api/registration/confirmation?token=" + token;
-        emailSender.send(request.getEmail(), buildEmail(request.getFirstname() + " " + request.getLastname(), request.getEmail(), link));
+
+        kafkaTemplate.send("users", request.getEmail(),
+                new UserRegisteredEvent(
+                request.getEmail(),
+                request.getFirstname(),
+                request.getLastname(),
+                link
+        ));
+        //emailSender.send(request.getEmail(), buildEmail(request.getFirstname() + " " + request.getLastname(), request.getEmail(), link));
 
         return token;
     }

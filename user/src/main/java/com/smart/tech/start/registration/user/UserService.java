@@ -1,6 +1,6 @@
 package com.smart.tech.start.registration.user;
 
-import com.smart.tech.start.config.MailConfigProperties;
+import com.smart.tech.start.registration.config.MailConfigProperties;
 import com.smart.tech.start.registration.token.ConfirmationToken;
 import com.smart.tech.start.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;

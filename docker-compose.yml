@@ -8,6 +8,7 @@ services:
     depends_on:
       - db
       - eureka-server
+      - broker
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/capgemini
       - SPRING_DATASOURCE_USERNAME=root
@@ -25,6 +26,7 @@ services:
     depends_on:
       - db
       - eureka-server
+      - broker
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/capgemini
       - SPRING_DATASOURCE_USERNAME=root

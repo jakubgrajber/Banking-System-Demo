@@ -1,6 +1,6 @@
 package com.smart.tech.start.registration.email;
 
-import com.smart.tech.start.config.MailConfigProperties;
+import com.smart.tech.start.registration.email.config.MailConfigProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
