@@ -6,6 +6,7 @@ import com.smart.tech.start.registration.user.User;
 import com.smart.tech.start.registration.user.UserRepository;
 import com.smart.tech.start.registration.user.UserRole;
 import com.smart.tech.start.registration.user.UserService;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,7 @@ public class RegistrationControllerTest {
 
     @Test
     @DisplayName("POST api/registration - register new user")
+    @Disabled
     public void register_validUser_success() throws Exception {
 
         // given

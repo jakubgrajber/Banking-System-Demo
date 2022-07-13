@@ -69,7 +69,7 @@ public class RegistrationControllerUnitTest {
 
     @Test
     @DisplayName("POST api/registration - register new user")
-    //@Disabled
+    @Disabled
     public void register_validUser_success() throws Exception {
 
         // given
