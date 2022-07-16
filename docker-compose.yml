@@ -9,6 +9,7 @@ services:
       - db
       - eureka-server
       - broker
+      - config-server
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/capgemini
       - SPRING_DATASOURCE_USERNAME=root
@@ -16,6 +17,7 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     ports:
       - 8080:8080
+    restart: on-failure
 
   notificationsApp:
     image: "notifications"
@@ -26,14 +28,11 @@ services:
     depends_on:
       - db
       - eureka-server
+      - config-server
       - broker
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/capgemini
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=root
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     ports:
       - 8081:8081
+    restart: on-failure
 
   eureka-server:
     image: "eureka-server"
@@ -56,6 +55,8 @@ services:
       POSTGRES_DB: capgemini
     ports:
       - 5432:5432
+    depends_on:
+      - eureka-server
 
   pgadmin:
     image: dpage/pgadmin4
@@ -83,6 +84,9 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    depends_on:
+      - eureka-server
+      - config-server
 
   broker:
     image: confluentinc/cp-kafka:7.0.1

@@ -2,40 +2,19 @@ server:
   port: 8081
 
 spring:
+  cloud:
+    config:
+      label: main
+      profile: dev
   application:
     name: notifications
-  kafka:
-    consumer:
-      properties:
-        spring.json.trusted.packages: "*"
-      bootstrap-servers:
-        - broker:29092
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      group-id: app
-      auto-offset-reset: earliest
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-  mail:
-    host: maildev
-    port: 1025
-    username: user
-    password: user
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-          ssl: "*"
-          connectiontimeout: 5000
-          timeout: 3000
-          writetimeout: 5000
+  config:
+    import: optional:configserver:http://config-server:8888
 
 eureka:
   client:
     service-url:
       defaultZone: http://eureka-server:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
 
-mail:
-  subject: Banking System Demo - User account confirmation
-  senderEmail: bsd@example.com
-  encoding: utf-8
