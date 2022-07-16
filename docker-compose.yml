@@ -40,7 +40,7 @@ services:
     build:
       context: ./eureka-server
       dockerfile: Dockerfile
-    container_name: eurekaServer
+    container_name: eureka-server
     ports:
       - 8761:8761
     environment:
@@ -101,6 +101,7 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
 
   init-kafka:
+    container_name: init-kafka
     image: confluentinc/cp-kafka:7.0.1
     depends_on:
       - broker
@@ -118,6 +119,7 @@ services:
 
 
   akhq:
+    container_name: akhq
     image: tchiotludo/akhq
     environment:
       AKHQ_CONFIGURATION: |
@@ -129,4 +131,15 @@ services:
     ports:
       - 1001:8080
       - 28081:28081
+
+  config-server:
+    image: "config-server"
+    build:
+      context: ./config-server
+      dockerfile: Dockerfile
+    container_name: config-server
+    depends_on:
+      - eureka-server
+    ports:
+      - 8888:8888
 

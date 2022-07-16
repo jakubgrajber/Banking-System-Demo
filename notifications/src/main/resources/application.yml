@@ -14,12 +14,26 @@ spring:
       group-id: app
       auto-offset-reset: earliest
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+  mail:
+    host: maildev
+    port: 1025
+    username: user
+    password: user
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl: "*"
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
 
 eureka:
   client:
     service-url:
       defaultZone: http://eureka-server:8761/eureka
-
 
 mail:
   subject: Banking System Demo - User account confirmation
