@@ -1,11 +1,11 @@
-package com.smart.tech.start.registration.event;
+package com.start.tech.start.user.event;
 
-import com.smart.tech.start.registration.user.User;
 import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class UserRegisteredEvent {
 

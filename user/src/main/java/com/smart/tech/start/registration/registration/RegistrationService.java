@@ -1,12 +1,12 @@
 package com.smart.tech.start.registration.registration;
 
 import com.smart.tech.start.registration.email.EmailValidator;
-import com.smart.tech.start.registration.event.UserRegisteredEvent;
 import com.smart.tech.start.registration.user.UserService;
 import com.smart.tech.start.registration.user.User;
 import com.smart.tech.start.registration.user.UserRole;
 import com.smart.tech.start.registration.token.ConfirmationToken;
 import com.smart.tech.start.registration.token.ConfirmationTokenService;
+import com.start.tech.start.user.event.UserRegisteredEvent;
 import lombok.AllArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;

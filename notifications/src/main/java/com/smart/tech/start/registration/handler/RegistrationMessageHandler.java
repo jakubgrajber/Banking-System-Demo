@@ -1,7 +1,7 @@
 package com.smart.tech.start.registration.handler;
 
 import com.smart.tech.start.registration.email.EmailService;
-import com.smart.tech.start.registration.event.UserRegisteredEvent;
+import com.start.tech.start.user.event.UserRegisteredEvent;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
