@@ -1,4 +1,6 @@
-package com.smart.tech.start.domain;
+package com.smart.tech.start.domain.user;
+
+import com.smart.tech.start.domain.account.BankAccount;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +19,7 @@ public class User {
     private String email;
     private String password;
 
-    private List<Account> accounts = new ArrayList<>(3);
+    private List<BankAccount> accounts = new ArrayList<>(3);
     private Boolean enabled = false;
 
     public User(){
@@ -30,7 +32,7 @@ public class User {
         this.password = password;
     }
 
-    public void addAccount(Account account) {
+    public void addAccount(BankAccount account) {
         if (!enabled)
             throw new IllegalStateException("Cannot add an account for disabled User.");
 
@@ -43,7 +45,7 @@ public class User {
         enabled = true;
     }
 
-    public List<Account> getAccounts() {
+    public List<BankAccount> getAccounts() {
         return accounts;
     }
 
@@ -51,12 +53,12 @@ public class User {
         return enabled;
     }
 
-    public void removeAccount(Account account) {
+    public void removeAccount(BankAccount account) {
         if (!enabled)
             throw new IllegalStateException("Cannot remove account - User is disabled.");
         if (!accounts.contains(account))
             throw new IllegalStateException("There is no such account assigned to this User.");
-        if (account.getBalance() > 0.0)
+        if (!account.isBalanceEmpty())
             throw new IllegalStateException("Cannot remove account with non-zero balance.");
         accounts.remove(account);
     }

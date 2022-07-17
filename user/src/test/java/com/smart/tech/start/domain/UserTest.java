@@ -1,25 +1,39 @@
 package com.smart.tech.start.domain;
 
+import com.smart.tech.start.domain.account.BankAccount;
+import com.smart.tech.start.domain.account.CheckingBankAccount;
+import com.smart.tech.start.domain.service.CurrencyRatesServiceTestingImpl;
+import com.smart.tech.start.domain.user.User;
+import com.smart.tech.start.domain.utilites.Money;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class UserTest {
 
-    private static final double POSITIVE_NUMBER = 123.4;
-    private final static String FIRSTNAME = "James";
-    private final static String LASTNAME = "Hetfield";
-    private final static String PASSWORD = "password";
-    private final static String EMAIL = "j.h@example.com";
+    private static final Money POSITIVE_MONEY_AMOUNT = new Money(new BigDecimal("123.4"));
+    private static final String FIRSTNAME = "James";
+    private static final String LASTNAME = "Hetfield";
+    private static final String PASSWORD = "password";
+    private static final String EMAIL = "j.h@example.com";
+
+    private CheckingBankAccount account;
+
+    @BeforeEach
+    void setUp() {
+        account = new CheckingBankAccount(new CurrencyRatesServiceTestingImpl());
+    }
 
     @Test
     @DisplayName("Disabled user cannot register a new account")
     public void shouldThrowIllegalStateException_WhenDisabledUserRegistersAccount() {
         // GIVEN
         User user = new User();
-        Account account = new Account();
 
         // WHEN - THEN
         Exception exception = assertThrows(IllegalStateException.class, () -> user.addAccount(account));
@@ -31,7 +45,6 @@ public class UserTest {
     public void shouldBeAbleToRegisterAccount_WhenUserIsEnabled() {
         // GIVEN
         User user = new User();
-        Account account = new Account();
         user.enable();
 
         // WHEN
@@ -79,7 +92,6 @@ public class UserTest {
     @DisplayName("Enabled user can remove account when its balance equals zero")
     public void shouldBeAbleToRemoveAccount_WhenAccountBalanceEqualsZero() {
         // GIVEN
-        Account account = new Account();
         User user = createEnabledUser();
         user.addAccount(account);
 
@@ -94,8 +106,7 @@ public class UserTest {
     @DisplayName("Enabled user cannot to be enabled again")
     public void shouldThrowIllegalStateException_WhenRemoveAccountWithBalanceThatNotEqualsZero() {
         // GIVEN
-        Account account = new Account();
-        account.setBalance(POSITIVE_NUMBER);
+        account.setBalance(POSITIVE_MONEY_AMOUNT);
         User user = createEnabledUser();
         user.addAccount(account);
 
@@ -108,7 +119,6 @@ public class UserTest {
     @DisplayName("Disabled user cannot remove account")
     public void shouldThrowIllegalStateException_WhenDisabledUserRemovesAccount() {
         // GIVEN
-        Account account = new Account();
         User user = createEnabledUser();
         user.addAccount(account);
         user.disable();
@@ -122,7 +132,6 @@ public class UserTest {
     @DisplayName("Enabled user cannot remove account which is not assign to him")
     public void shouldThrowIllegalStateException_WhenRemoveAccountWithoutAddingSuchOneBefore() {
         // GIVEN
-        Account account = new Account();
         User user = createEnabledUser();
 
         // WHEN THEN
