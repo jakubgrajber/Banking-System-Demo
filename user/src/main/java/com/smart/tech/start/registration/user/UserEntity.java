@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
- * User is a main entity and it is used to registration and login process.
+ * UserEntity is a main entity, and it is used to registration and login process.
  * It implements UserDetails and in our case the username is actually the user's email.
  */
 
@@ -25,7 +25,7 @@ import java.util.Collections;
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
-public class User implements UserDetails {
+public class UserEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,7 +50,7 @@ public class User implements UserDetails {
 
     private Boolean enabled = false;
 
-    public User(String firstName, String lastName, String password, String email, UserRole userRole) {
+    public UserEntity(String firstName, String lastName, String password, String email, UserRole userRole) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;

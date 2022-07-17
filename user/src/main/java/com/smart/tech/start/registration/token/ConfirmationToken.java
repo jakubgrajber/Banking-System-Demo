@@ -1,6 +1,6 @@
 package com.smart.tech.start.registration.token;
 
-import com.smart.tech.start.registration.user.User;
+import com.smart.tech.start.registration.user.UserEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -41,9 +41,9 @@ public class ConfirmationToken {
 
     @ManyToOne
     @JoinColumn(nullable = false, name = "user_id")
-    private User user;
+    private UserEntity user;
 
-    public ConfirmationToken(String token, LocalDateTime createdAt, LocalDateTime expiresAt, User user) {
+    public ConfirmationToken(String token, LocalDateTime createdAt, LocalDateTime expiresAt, UserEntity user) {
         this.token = token;
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;

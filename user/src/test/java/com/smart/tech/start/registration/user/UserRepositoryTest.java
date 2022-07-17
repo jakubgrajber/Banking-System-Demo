@@ -1,13 +1,9 @@
-package start.registration.user;
+package com.smart.tech.start.registration.user;
 
 import com.smart.tech.start.UserApplication;
-import com.smart.tech.start.registration.user.User;
-import com.smart.tech.start.registration.user.UserRepository;
-import com.smart.tech.start.registration.user.UserRole;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,11 +28,11 @@ class UserRepositoryTest {
     @DisplayName("Check if user can be found by his email")
     void shouldBeAbleToFindUserByHisEmail() {
         // given
-        User user = new User(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
+        UserEntity user = new UserEntity(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
         userRepository.save(user);
 
         // when
-        Optional<User> optionalUser = userRepository.findByEmail(EMAIL);
+        Optional<UserEntity> optionalUser = userRepository.findByEmail(EMAIL);
 
         // then
         assertTrue(optionalUser.isPresent());
@@ -48,7 +44,7 @@ class UserRepositoryTest {
         // given
 
         // when
-        Optional<User> optionalUser = userRepository.findByEmail(EMAIL);
+        Optional<UserEntity> optionalUser = userRepository.findByEmail(EMAIL);
 
         // then
         assertFalse(optionalUser.isPresent());
@@ -58,7 +54,7 @@ class UserRepositoryTest {
     @DisplayName("Check if user can be enabled by his email")
     void shouldBeAbleToEnableUserByHisEmail() {
         // given
-        User user = new User(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
+        UserEntity user = new UserEntity(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
         userRepository.save(user);
 
         // when

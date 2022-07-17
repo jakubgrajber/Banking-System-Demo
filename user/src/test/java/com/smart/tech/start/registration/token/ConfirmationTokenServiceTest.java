@@ -1,4 +1,4 @@
-package start.registration.token;
+package com.smart.tech.start.registration.token;
 
 import com.smart.tech.start.registration.token.ConfirmationToken;
 import com.smart.tech.start.registration.token.ConfirmationTokenRepository;

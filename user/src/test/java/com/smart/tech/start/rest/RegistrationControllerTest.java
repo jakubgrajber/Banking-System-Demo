@@ -1,8 +1,8 @@
-package start.rest;
+package com.smart.tech.start.rest;
 
 import com.smart.tech.start.UserApplication;
 import com.smart.tech.start.registration.registration.RegistrationRequest;
-import com.smart.tech.start.registration.user.User;
+import com.smart.tech.start.registration.user.UserEntity;
 import com.smart.tech.start.registration.user.UserRepository;
 import com.smart.tech.start.registration.user.UserRole;
 import com.smart.tech.start.registration.user.UserService;
@@ -81,7 +81,7 @@ public class RegistrationControllerTest {
     public void confirm_validToken_success() throws Exception {
 
         //given
-        User user = new User(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
+        UserEntity user = new UserEntity(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
         String token = userService.signUpUser(user);
 
         // when - then

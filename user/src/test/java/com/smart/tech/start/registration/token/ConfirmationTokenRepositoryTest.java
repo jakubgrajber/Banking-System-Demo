@@ -1,16 +1,12 @@
-package start.registration.token;
+package com.smart.tech.start.registration.token;
 
 import com.smart.tech.start.UserApplication;
-import com.smart.tech.start.registration.token.ConfirmationToken;
-import com.smart.tech.start.registration.token.ConfirmationTokenRepository;
-import com.smart.tech.start.registration.user.User;
+import com.smart.tech.start.registration.user.UserEntity;
 import com.smart.tech.start.registration.user.UserRepository;
 import com.smart.tech.start.registration.user.UserRole;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -33,7 +29,7 @@ class ConfirmationTokenRepositoryTest {
     private final static String LASTNAME = "Hetfield";
     private final static String PASSWORD = "password";
     private final static String EMAIL = "j.h@example.com";
-    private User USER = new User(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
+    private UserEntity USER = new UserEntity(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
 
     private final static String TOKEN_STRING = "11b34543-b48a-417d-b330-1f13535530e2";
     private final static LocalDateTime CREATED_AT = LocalDateTime.now();

@@ -1,12 +1,8 @@
-package start.registration.user;
+package com.smart.tech.start.registration.user;
 
 import com.smart.tech.start.registration.config.MailConfigProperties;
 import com.smart.tech.start.registration.token.ConfirmationToken;
 import com.smart.tech.start.registration.token.ConfirmationTokenService;
-import com.smart.tech.start.registration.user.User;
-import com.smart.tech.start.registration.user.UserRepository;
-import com.smart.tech.start.registration.user.UserRole;
-import com.smart.tech.start.registration.user.UserService;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -67,7 +63,7 @@ class UserServiceTest {
     @DisplayName("Check if user can be found by his username (email)")
     void canLoadUserByUsername() {
         // given
-        User userToReturnFromRepository = new User(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
+        UserEntity userToReturnFromRepository = new UserEntity(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
         when(userRepository.findByEmail(EMAIL)).thenReturn(Optional.of(userToReturnFromRepository));
 
         // when
@@ -88,7 +84,7 @@ class UserServiceTest {
     @DisplayName("Check if user can be found by his email")
     void cnaGetUserByEmail() {
         // given
-        User userToReturnFromRepository = new User(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
+        UserEntity userToReturnFromRepository = new UserEntity(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
         when(userRepository.findByEmail(EMAIL)).thenReturn(Optional.of(userToReturnFromRepository));
 
         // when
@@ -109,8 +105,8 @@ class UserServiceTest {
     @DisplayName("Check if method throws IllegalStateException when email is already taken")
     void shouldThrowIllegalStateException_whenSigningUpAUserWithAnAlreadyTakenEmail() {
         // given
-        User userToReturnFromRepository = new User(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
-        User userToSignUp = new User("example", "example", "password", EMAIL, UserRole.USER);
+        UserEntity userToReturnFromRepository = new UserEntity(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
+        UserEntity userToSignUp = new UserEntity("example", "example", "password", EMAIL, UserRole.USER);
         when(userRepository.findByEmail(EMAIL)).thenReturn(Optional.of(userToReturnFromRepository));
 
         // when - then
@@ -124,7 +120,7 @@ class UserServiceTest {
     @DisplayName("Check if user can be signed up")
     void canSignUpANewUserWithUniqueEmail(){
         //given
-        User user = new User(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
+        UserEntity user = new UserEntity(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
 
         // when
         userService.signUpUser(user);
@@ -137,7 +133,7 @@ class UserServiceTest {
     @DisplayName("Check if confirmation token is created while signing up a new user")
     void canSigningUpANewUserSaveToken(){
         //given
-        User user = new User(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
+        UserEntity user = new UserEntity(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
 
         // when
         String token = userService.signUpUser(user);

@@ -1,4 +1,4 @@
-package start.registration.integration;
+package com.smart.tech.start.registration.integration;
 
 import com.smart.tech.start.UserApplication;
 import com.smart.tech.start.registration.registration.RegistrationRequest;
@@ -6,7 +6,7 @@ import com.smart.tech.start.registration.registration.RegistrationService;
 import com.smart.tech.start.registration.token.ConfirmationToken;
 import com.smart.tech.start.registration.token.ConfirmationTokenRepository;
 import com.smart.tech.start.registration.token.ConfirmationTokenService;
-import com.smart.tech.start.registration.user.User;
+import com.smart.tech.start.registration.user.UserEntity;
 import com.smart.tech.start.registration.user.UserRole;
 import com.smart.tech.start.registration.user.UserService;
 import org.junit.jupiter.api.DisplayName;
@@ -72,7 +72,7 @@ class RegistrationServiceIntegrationTest {
     void shouldThrowIllegalStateException_WhenTokenHasAlreadyBeenUsed(){
 
         // given
-        User user = new User(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
+        UserEntity user = new UserEntity(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
         String token = userService.signUpUser(user);
 
         confirmationTokenService.setConfirmedAt(token);
@@ -87,7 +87,7 @@ class RegistrationServiceIntegrationTest {
     void shouldThrowIllegalStateException_WhenTokenExpires() {
 
         // given
-        User user = new User(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
+        UserEntity user = new UserEntity(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
         String token = userService.signUpUser(user);
 
         confirmationTokenService.setExpiresAt(token, LocalDateTime.now().plusMinutes(-15));
@@ -103,7 +103,7 @@ class RegistrationServiceIntegrationTest {
     void shouldSetConfirmedAt_WhenConfirmingToken(){
 
         // given
-        User user = new User(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
+        UserEntity user = new UserEntity(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
         String token = userService.signUpUser(user);
 
         // when
@@ -118,7 +118,7 @@ class RegistrationServiceIntegrationTest {
     void shouldEnabledUser_WhenConfirmingToken(){
 
         // given
-        User user = new User(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
+        UserEntity user = new UserEntity(FIRSTNAME, LASTNAME, PASSWORD, EMAIL, UserRole.USER);
         String token = userService.signUpUser(user);
 
         // when

@@ -1,4 +1,4 @@
-package start.rest;
+package com.smart.tech.start.rest;
 
 import com.smart.tech.start.UserApplication;
 import com.smart.tech.start.registration.email.EmailValidator;

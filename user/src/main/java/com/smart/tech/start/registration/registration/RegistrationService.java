@@ -2,7 +2,7 @@ package com.smart.tech.start.registration.registration;
 
 import com.smart.tech.start.registration.email.EmailValidator;
 import com.smart.tech.start.registration.user.UserService;
-import com.smart.tech.start.registration.user.User;
+import com.smart.tech.start.registration.user.UserEntity;
 import com.smart.tech.start.registration.user.UserRole;
 import com.smart.tech.start.registration.token.ConfirmationToken;
 import com.smart.tech.start.registration.token.ConfirmationTokenService;
@@ -31,7 +31,7 @@ public class RegistrationService {
         if (!isValidEmail){
             throw new IllegalStateException("Email not valid");
         }
-        String token = userService.signUpUser(new User(
+        String token = userService.signUpUser(new UserEntity(
                 request.getFirstname(),
                 request.getLastname(),
                 request.getPassword(),
