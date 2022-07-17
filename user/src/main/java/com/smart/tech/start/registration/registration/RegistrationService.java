@@ -28,27 +28,27 @@ public class RegistrationService {
 
         boolean isValidEmail = emailValidator.test(request.getEmail());
 
-        if (!isValidEmail){
+        if (!isValidEmail) {
             throw new IllegalStateException("Email not valid");
         }
         String token = userService.signUpUser(new UserEntity(
-                request.getFirstname(),
-                request.getLastname(),
-                request.getPassword(),
-                request.getEmail(),
-                UserRole.USER
-            )
+                        request.getFirstname(),
+                        request.getLastname(),
+                        request.getPassword(),
+                        request.getEmail(),
+                        UserRole.USER
+                )
         );
 
         String link = "http://localhost:8080/api/registration/confirmation?token=" + token;
 
         kafkaTemplate.send("users", request.getEmail(),
                 new UserRegisteredEvent(
-                request.getEmail(),
-                request.getFirstname(),
-                request.getLastname(),
-                link
-        ));
+                        request.getEmail(),
+                        request.getFirstname(),
+                        request.getLastname(),
+                        link
+                ));
 
         return token;
     }

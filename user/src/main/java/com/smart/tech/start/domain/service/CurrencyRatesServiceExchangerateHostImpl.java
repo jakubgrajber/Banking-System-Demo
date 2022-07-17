@@ -15,7 +15,7 @@ import java.util.Currency;
  * https://exchangerate.host/#/
  */
 
-public class CurrencyRatesServiceExchangerateHostImpl implements CurrencyRatesService{
+public class CurrencyRatesServiceExchangerateHostImpl implements CurrencyRatesService {
 
     @Override
     public Money exchange(Money from, Currency to) {
@@ -40,7 +40,7 @@ public class CurrencyRatesServiceExchangerateHostImpl implements CurrencyRatesSe
         return new BigDecimal(name.asText());
     }
 
-    private String urlBuilder(Currency from, Currency to, BigDecimal amount){
+    private String urlBuilder(Currency from, Currency to, BigDecimal amount) {
         return "https://api.exchangerate.host/convert?from=" + from.getCurrencyCode()
                 + "&to=" + to.getCurrencyCode() + "&amount=" + amount.toString();
     }

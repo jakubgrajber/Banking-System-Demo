@@ -2,7 +2,7 @@ package com.smart.tech.start.domain.account;
 
 import com.smart.tech.start.domain.utilites.Money;
 
-public class SavingsBankAccount implements BankAccount{
+public class SavingsBankAccount implements BankAccount {
 
     @Override
     public void sendTransfer(Money money, BankAccount recipient) {

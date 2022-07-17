@@ -18,7 +18,7 @@ public class ConfirmationTokenService {
 
     private final Clock clock;
 
-    public void saveConfirmationToken(ConfirmationToken token){
+    public void saveConfirmationToken(ConfirmationToken token) {
         confirmationTokenRepository.save(token);
     }
 
@@ -31,7 +31,7 @@ public class ConfirmationTokenService {
                 token, LocalDateTime.now(clock));
     }
 
-    public void setExpiresAt(String token, LocalDateTime time){
+    public void setExpiresAt(String token, LocalDateTime time) {
         confirmationTokenRepository.updateExpiresAt(token, time);
     }
 }

@@ -4,9 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Currency;
-import java.util.Locale;
 import java.util.Objects;
 
 public class Money implements Comparable<Money>, Serializable {

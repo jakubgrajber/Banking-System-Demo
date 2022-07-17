@@ -32,36 +32,36 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, email)));
     }
 
-    public UserEntity getUserByEmail(String email){
+    public UserEntity getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, email)));
     }
 
-     public String signUpUser(UserEntity user){
-         boolean userExists = userRepository.findByEmail(user.getEmail()).isPresent();
+    public String signUpUser(UserEntity user) {
+        boolean userExists = userRepository.findByEmail(user.getEmail()).isPresent();
 
-         if (userExists){
-             throw new IllegalStateException("Email already taken");
-         }
+        if (userExists) {
+            throw new IllegalStateException("Email already taken");
+        }
 
-         String encodedPassword = passwordEncoder.encode(user.getPassword());
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
 
-         user.setPassword(encodedPassword);
+        user.setPassword(encodedPassword);
 
-         userRepository.save(user);
+        userRepository.save(user);
 
-         String token = UUID.randomUUID().toString();
-         ConfirmationToken confirmationToken = new ConfirmationToken(
-                 token,
-                 LocalDateTime.now(),
-                 LocalDateTime.now().plus(mailConfigProperties.getConfirmationTime()),
-                 user
-         );
+        String token = UUID.randomUUID().toString();
+        ConfirmationToken confirmationToken = new ConfirmationToken(
+                token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plus(mailConfigProperties.getConfirmationTime()),
+                user
+        );
 
-         confirmationTokenService.saveConfirmationToken(confirmationToken);
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
 
-         return token;
-     }
+        return token;
+    }
 
     public int enableUser(String email) {
         return userRepository.enableUser(email);

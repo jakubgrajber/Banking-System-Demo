@@ -5,7 +5,6 @@ import com.smart.tech.start.domain.utilites.Money;
 
 import java.math.BigDecimal;
 import java.util.Currency;
-import java.util.Locale;
 
 public class CheckingBankAccount implements BankAccount {
 
@@ -46,11 +45,10 @@ public class CheckingBankAccount implements BankAccount {
 
     @Override
     public void receiveTransfer(Money money, BankAccount sender) {
-        if (!money.isSameCurrencyAs(balance)){
+        if (!money.isSameCurrencyAs(balance)) {
             Money exchangedMoney = ratesService.exchange(money, this.currency);
             balance = balance.add(exchangedMoney);
-        }
-        else {
+        } else {
             balance = balance.add(money);
         }
     }
