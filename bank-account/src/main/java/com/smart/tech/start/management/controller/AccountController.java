@@ -3,10 +3,10 @@ package com.smart.tech.start.management.controller;
 import com.smart.tech.start.management.request.RegistrationRequest;
 import com.smart.tech.start.management.service.AccountRegistrationService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
@@ -15,9 +15,18 @@ public class AccountController {
 
     private final AccountRegistrationService registrationService;
 
+    @GetMapping
+    public String test(){
+        return "it works";
+    }
+
     @PostMapping
-    public String registerNewAccount(@RequestBody RegistrationRequest request) {
+    public void registerNewAccount(@RequestBody RegistrationRequest request) {
         registrationService.register(request);
-        return "done";
+    }
+
+    @DeleteMapping
+    public void deleteAccount(@RequestParam UUID accountNumber){
+        registrationService.delete(accountNumber);
     }
 }

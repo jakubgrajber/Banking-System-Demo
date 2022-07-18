@@ -6,6 +6,8 @@ import com.smart.tech.start.management.request.RegistrationRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 public class AccountRegistrationService {
@@ -14,5 +16,9 @@ public class AccountRegistrationService {
 
     public void register(RegistrationRequest request) {
         bankAccountRepository.save(new AccountEntity(request.getCurrencyCode()));
+    }
+
+    public void delete(UUID accountNumber) {
+        bankAccountRepository.deleteById(accountNumber);
     }
 }
