@@ -1,6 +1,6 @@
 package com.smart.tech.start.security.config;
 
-import com.smart.tech.start.registration.user.UserService;
+import com.smart.tech.start.user.account.management.registration.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
