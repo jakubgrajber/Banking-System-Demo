@@ -3,7 +3,7 @@ package com.smart.tech.start.domain;
 import com.smart.tech.start.domain.account.BankAccount;
 import com.smart.tech.start.domain.account.CheckingBankAccount;
 import com.smart.tech.start.domain.service.CurrencyRatesServiceTestingImpl;
-import com.smart.tech.start.domain.utilites.Money;
+import com.smart.tech.start.domain.utilities.Money;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

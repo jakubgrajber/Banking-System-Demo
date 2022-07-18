@@ -1,11 +1,17 @@
 package com.smart.tech.start.domain.account;
 
-import com.smart.tech.start.domain.utilites.Money;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
-public interface BankAccount {
-    void sendTransfer(Money money, BankAccount recipient);
+abstract public class BankAccount {
 
-    void receiveTransfer(Money money, BankAccount sender);
+    private BigDecimal balance = new BigDecimal(BigInteger.ZERO);
 
-    boolean isBalanceEmpty();
+    public boolean isBalanceEmpty() {
+        return balance.equals(BigDecimal.ZERO);
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
 }

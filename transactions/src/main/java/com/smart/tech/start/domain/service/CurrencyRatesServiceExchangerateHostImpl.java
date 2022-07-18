@@ -2,7 +2,7 @@ package com.smart.tech.start.domain.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.smart.tech.start.domain.utilites.Money;
+import com.smart.tech.start.domain.utilities.Money;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 

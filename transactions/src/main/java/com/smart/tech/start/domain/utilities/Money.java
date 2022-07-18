@@ -1,4 +1,4 @@
-package com.smart.tech.start.domain.utilites;
+package com.smart.tech.start.domain.utilities;
 
 import org.jetbrains.annotations.NotNull;
 

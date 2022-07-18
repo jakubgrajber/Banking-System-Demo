@@ -1,6 +1,7 @@
 package com.smart.tech.start.domain.service;
 
-import com.smart.tech.start.domain.utilites.Money;
+
+import com.smart.tech.start.domain.utilities.Money;
 
 import java.util.Currency;
 

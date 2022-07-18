@@ -1,10 +1,7 @@
 package com.smart.tech.start.domain;
 
-import com.smart.tech.start.domain.account.BankAccount;
 import com.smart.tech.start.domain.account.CheckingBankAccount;
-import com.smart.tech.start.domain.service.CurrencyRatesServiceTestingImpl;
 import com.smart.tech.start.domain.user.User;
-import com.smart.tech.start.domain.utilites.Money;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class UserTest {
 
-    private static final Money POSITIVE_MONEY_AMOUNT = new Money(new BigDecimal("123.4"));
+    private static final BigDecimal POSITIVE_MONEY_AMOUNT = new BigDecimal("123.4");
     private static final String FIRSTNAME = "James";
     private static final String LASTNAME = "Hetfield";
     private static final String PASSWORD = "password";
@@ -26,7 +23,7 @@ public class UserTest {
 
     @BeforeEach
     void setUp() {
-        account = new CheckingBankAccount(new CurrencyRatesServiceTestingImpl());
+        account = new CheckingBankAccount();
     }
 
     @Test
