@@ -4,11 +4,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.UUID;
 
@@ -17,10 +14,11 @@ import java.util.UUID;
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
+@Table(name = "bank_accounts")
 public class BankAccountEntity {
 
     @Id
-    @Type(type = "uuid-char")
+    @GeneratedValue
     private UUID accountNumber;
 
     @Column
