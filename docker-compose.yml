@@ -1,149 +1,175 @@
 services:
-  userApp:
-    image: "user"
+  bankAccountApp:
+    image: "bank-account"
     build:
-      context: ./user
+      context: ./bank-account
       dockerfile: Dockerfile
-    container_name: userApp
-    depends_on:
-      - db
-      - eureka-server
-      - broker
-      - config-server
+    container_name: bankAccountApp
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/capgemini
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-bank-account:5433/capgemini
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     ports:
-      - 8080:8080
-    restart: on-failure
+      - 7070:7070
 
-  notificationsApp:
-    image: "notifications"
-    build:
-      context: ./notifications
-      dockerfile: Dockerfile
-    container_name: notificationsApp
-    depends_on:
-      - db
-      - eureka-server
-      - config-server
-      - broker
-    ports:
-      - 8081:8081
-    restart: on-failure
-
-  eureka-server:
-    image: "eureka-server"
-    build:
-      context: ./eureka-server
-      dockerfile: Dockerfile
-    container_name: eureka-server
-    ports:
-      - 8761:8761
-    environment:
-      eureka.instance.hostname: eureka-server
-      eureka.client.serviceUrl.defaultZone: http://eureka-server:8761/eureka
-
-  db:
+  db-bank-account:
     image: postgres
-    container_name: db
+    container_name: db-bank-account
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
       POSTGRES_DB: capgemini
+    command:
+      - -p 5433
     ports:
-      - 5432:5432
-    depends_on:
-      - eureka-server
-
+      - 5433:5432
+#
+#  userApp:
+#    image: "user"
+#    build:
+#      context: ./user
+#      dockerfile: Dockerfile
+#    container_name: userApp
+#    depends_on:
+#      - db
+#      - eureka-server
+#      - broker
+#      - config-server
+#    environment:
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/capgemini
+#      - SPRING_DATASOURCE_USERNAME=root
+#      - SPRING_DATASOURCE_PASSWORD=root
+#      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+#    ports:
+#      - 8080:8080
+#    restart: on-failure
+#
+#  db-user-app:
+#    image: postgres
+#    container_name: db-user-app
+#    environment:
+#      POSTGRES_USER: root
+#      POSTGRES_PASSWORD: root
+#      POSTGRES_DB: capgemini
+#    ports:
+#      - 5432:5432
+#    depends_on:
+#      - eureka-server
+#
+#  notificationsApp:
+#    image: "notifications"
+#    build:
+#      context: ./notifications
+#      dockerfile: Dockerfile
+#    container_name: notificationsApp
+#    depends_on:
+#      - db
+#      - eureka-server
+#      - config-server
+#      - broker
+#    ports:
+#      - 8081:8081
+#    restart: on-failure
+#
+#  eureka-server:
+#    image: "eureka-server"
+#    build:
+#      context: ./eureka-server
+#      dockerfile: Dockerfile
+#    container_name: eureka-server
+#    ports:
+#      - 8761:8761
+#    environment:
+#      eureka.instance.hostname: eureka-server
+#      eureka.client.serviceUrl.defaultZone: http://eureka-server:8761/eureka
+#
   pgadmin:
     image: dpage/pgadmin4
     depends_on:
-      - db
+      - db-bank-account
     container_name: pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
       - 5050:80
-
-  maildev:
-    image: maildev/maildev
-    container_name: maildev
-    depends_on:
-      - db
-    ports:
-      - 1080:1080
-      - 1025:1025
-
-  zookeeper:
-    image: confluentinc/cp-zookeeper:7.0.1
-    container_name: zookeeper
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-    depends_on:
-      - eureka-server
-      - config-server
-
-  broker:
-    image: confluentinc/cp-kafka:7.0.1
-    container_name: broker
-    ports:
-      - "9092:9092"
-    depends_on:
-      - zookeeper
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://broker:29092
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
-
-  init-kafka:
-    container_name: init-kafka
-    image: confluentinc/cp-kafka:7.0.1
-    depends_on:
-      - broker
-    entrypoint: [ '/bin/sh', '-c' ]
-    command: |
-      "
-      kafka-topics --bootstrap-server broker:29092 --list
-      
-      echo -e 'Creating kafka topics'
-      kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic users --replication-factor 1 --partitions 1
-      
-      echo -e 'Successfully created the following topics:'
-      kafka-topics --bootstrap-server broker:29092 --list
-      "
-
-
-  akhq:
-    container_name: akhq
-    image: tchiotludo/akhq
-    environment:
-      AKHQ_CONFIGURATION: |
-        akhq:
-          connections:
-            docker-kafka-server:
-              properties:
-                bootstrap.servers: "broker:29092"
-    ports:
-      - 1001:8080
-      - 28081:28081
-
-  config-server:
-    image: "config-server"
-    build:
-      context: ./config-server
-      dockerfile: Dockerfile
-    container_name: config-server
-    depends_on:
-      - eureka-server
-    ports:
-      - 8888:8888
-
+#
+#  maildev:
+#    image: maildev/maildev
+#    container_name: maildev
+#    depends_on:
+#      - db
+#    ports:
+#      - 1080:1080
+#      - 1025:1025
+#
+#  zookeeper:
+#    image: confluentinc/cp-zookeeper:7.0.1
+#    container_name: zookeeper
+#    environment:
+#      ZOOKEEPER_CLIENT_PORT: 2181
+#      ZOOKEEPER_TICK_TIME: 2000
+#    depends_on:
+#      - eureka-server
+#      - config-server
+#
+#  broker:
+#    image: confluentinc/cp-kafka:7.0.1
+#    container_name: broker
+#    ports:
+#      - "9092:9092"
+#    depends_on:
+#      - zookeeper
+#    environment:
+#      KAFKA_BROKER_ID: 1
+#      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://broker:29092
+#      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+#      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+#      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+#      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+#
+#  init-kafka:
+#    container_name: init-kafka
+#    image: confluentinc/cp-kafka:7.0.1
+#    depends_on:
+#      - broker
+#    entrypoint: [ '/bin/sh', '-c' ]
+#    command: |
+#      "
+#      kafka-topics --bootstrap-server broker:29092 --list
+#
+#      echo -e 'Creating kafka topics'
+#      kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic users --replication-factor 1 --partitions 1
+#
+#      echo -e 'Successfully created the following topics:'
+#      kafka-topics --bootstrap-server broker:29092 --list
+#      "
+#
+#
+#  akhq:
+#    container_name: akhq
+#    image: tchiotludo/akhq
+#    environment:
+#      AKHQ_CONFIGURATION: |
+#        akhq:
+#          connections:
+#            docker-kafka-server:
+#              properties:
+#                bootstrap.servers: "broker:29092"
+#    ports:
+#      - 1001:8080
+#      - 28081:28081
+#
+#  config-server:
+#    image: "config-server"
+#    build:
+#      context: ./config-server
+#      dockerfile: Dockerfile
+#    container_name: config-server
+#    depends_on:
+#      - eureka-server
+#    ports:
+#      - 8888:8888
+#

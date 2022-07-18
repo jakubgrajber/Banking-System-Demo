@@ -18,6 +18,7 @@
       <module>config-server</module>
     <module>user-client</module>
       <module>transactions</module>
+      <module>bank-account</module>
   </modules>
 
   <properties>

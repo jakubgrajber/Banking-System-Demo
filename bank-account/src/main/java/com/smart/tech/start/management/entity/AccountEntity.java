@@ -1,4 +1,4 @@
-package com.smart.tech.start.bank.account.management.entity;
+package com.smart.tech.start.management.entity;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -15,15 +15,20 @@ import java.util.UUID;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Table(name = "bank_accounts")
-public class BankAccountEntity {
+public class AccountEntity {
 
     @Id
     @GeneratedValue
     private UUID accountNumber;
 
-    @Column
+    @Column(nullable = false)
     private BigDecimal balance;
 
-    @Column
+    @Column(nullable = false)
     private String currencyCode;
+
+    public AccountEntity(String currencyCode) {
+        this.currencyCode = currencyCode;
+        this.balance = new BigDecimal(0);
+    }
 }
