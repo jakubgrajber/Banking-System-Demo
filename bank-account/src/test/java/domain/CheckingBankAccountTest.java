@@ -1,4 +1,4 @@
-package com.smart.tech.start.domain;
+package domain;
 
 import com.smart.tech.start.domain.account.BankAccount;
 import com.smart.tech.start.domain.account.CheckingBankAccount;

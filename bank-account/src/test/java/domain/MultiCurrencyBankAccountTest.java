@@ -1,4 +1,4 @@
-package com.smart.tech.start.domain;
+package domain;
 
 public class MultiCurrencyBankAccountTest {
 }
