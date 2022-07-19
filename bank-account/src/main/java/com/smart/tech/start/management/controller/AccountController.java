@@ -1,11 +1,10 @@
 package com.smart.tech.start.management.controller;
 
 import com.smart.tech.start.management.request.RegistrationRequest;
-import com.smart.tech.start.management.service.AccountRegistrationService;
+import com.smart.tech.start.management.service.AccountService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @RestController
@@ -13,7 +12,7 @@ import java.util.UUID;
 @RequestMapping(path = "api/account")
 public class AccountController {
 
-    private final AccountRegistrationService registrationService;
+    private final AccountService registrationService;
 
     @GetMapping
     public String test(){

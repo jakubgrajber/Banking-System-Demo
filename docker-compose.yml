@@ -14,6 +14,7 @@ services:
       - 7070:7070
     depends_on:
       - db-bank-account
+    restart: on-failure
 
   db-bank-account:
     image: postgres

@@ -88,4 +88,12 @@ public class Money implements Comparable<Money>, Serializable {
                     "This operation cannot be performed in two different currencies.");
         }
     }
+
+    @Override
+    public String toString() {
+        return "Money{" +
+                "amount=" + amount +
+                ", currency=" + currency +
+                '}';
+    }
 }

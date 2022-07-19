@@ -1,6 +1,7 @@
 package com.smart.tech.start.domain.account;
 
 import com.smart.tech.start.domain.service.CurrencyRatesService;
+import com.smart.tech.start.domain.service.CurrencyRatesServiceExchangerateHostImpl;
 import com.smart.tech.start.domain.utilities.Money;
 
 import java.math.BigDecimal;
@@ -8,11 +9,15 @@ import java.util.Currency;
 
 public class CheckingBankAccount implements BankAccount {
 
-    private CurrencyRatesService ratesService;
+    private final CurrencyRatesService ratesService;
     private Money balance;
     private Currency currency;
 
     private static final Currency DEFAULT_CURRENCY = Currency.getInstance("PLN");
+
+    public CheckingBankAccount(){
+        ratesService = new CurrencyRatesServiceExchangerateHostImpl();
+    }
 
     public CheckingBankAccount(CurrencyRatesService ratesService) {
         this.ratesService = ratesService;
@@ -60,5 +65,16 @@ public class CheckingBankAccount implements BankAccount {
 
     public void setBalance(Money accountBalance) {
         this.balance = accountBalance;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
+    @Override
+    public String toString() {
+        return "CheckingBankAccount{" +
+                "balance=" + balance +
+                '}';
     }
 }

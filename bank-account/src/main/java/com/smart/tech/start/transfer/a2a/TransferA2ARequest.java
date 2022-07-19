@@ -14,5 +14,4 @@ public class TransferA2ARequest {
     private String recipientAccountNumber;
     private BigDecimal amount;
     private String currencyCode;
-    private String title;
 }

@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -37,6 +38,9 @@ public class TransferA2AEntity {
     private String title;
 
     @Column(nullable = false)
+    private LocalDateTime requestedAt;
+
+    @Column
     private String status;
 
     @Column
@@ -45,5 +49,12 @@ public class TransferA2AEntity {
     @Column
     private double currencyExchangeRate;
 
-
+    public TransferA2AEntity(UUID senderAccountNumber, BigDecimal amount, String currencyCode, UUID recipientAccountNumber, String title, LocalDateTime requestedAt) {
+        this.senderAccountNumber = senderAccountNumber;
+        this.amount = amount;
+        this.currencyCode = currencyCode;
+        this.recipientAccountNumber = recipientAccountNumber;
+        this.title = title;
+        this.requestedAt = requestedAt;
+    }
 }
