@@ -14,11 +14,6 @@ public class AccountController {
 
     private final AccountService registrationService;
 
-    @GetMapping
-    public String test(){
-        return "it works";
-    }
-
     @PostMapping
     public void registerNewAccount(@RequestBody RegistrationRequest request) {
         registrationService.register(request);

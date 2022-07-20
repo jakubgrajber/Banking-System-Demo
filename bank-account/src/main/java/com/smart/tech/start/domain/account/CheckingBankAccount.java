@@ -15,7 +15,7 @@ public class CheckingBankAccount implements BankAccount {
 
     private static final Currency DEFAULT_CURRENCY = Currency.getInstance("PLN");
 
-    public CheckingBankAccount(){
+    public CheckingBankAccount() {
         ratesService = new CurrencyRatesServiceExchangerateHostImpl();
     }
 
@@ -39,7 +39,7 @@ public class CheckingBankAccount implements BankAccount {
     public void sendTransfer(Money money, BankAccount recipient) {
         if (recipient == null)
             throw new IllegalArgumentException("Cannot perform this operation - invalid recipient.");
-        if (money.isZero())
+        if (money.getAmount().compareTo(BigDecimal.ZERO) <= 0)
             throw new IllegalArgumentException("Cannot perform this operation - invalid amount.");
         if (balance.compareTo(money) < 0)
             throw new IllegalArgumentException("Cannot perform this operation - not sufficient funds.");
@@ -69,6 +69,10 @@ public class CheckingBankAccount implements BankAccount {
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
+    }
+
+    public Currency getCurrency() {
+        return currency;
     }
 
     @Override

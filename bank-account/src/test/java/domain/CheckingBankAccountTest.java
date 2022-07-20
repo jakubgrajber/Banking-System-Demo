@@ -20,6 +20,7 @@ public class CheckingBankAccountTest {
     public static final Currency DEFAULT_CURRENCY = Currency.getInstance("PLN");
     public static final BigDecimal PLN_TO_EUR = new BigDecimal("0.21");
 
+    public static final Money NEGATIVE_MONEY_AMOUNT = new Money(new BigDecimal(-1),DEFAULT_CURRENCY);
     public static final Money ZERO_MONEY_AMOUNT = new Money(new BigDecimal(BigInteger.ZERO),DEFAULT_CURRENCY);
     public static final Money ACCOUNT_BALANCE = new Money(new BigDecimal(5000), DEFAULT_CURRENCY);
     public static final Money GREATER_THAN_ACCOUNT_BALANCE = new Money(new BigDecimal(5001), DEFAULT_CURRENCY);
@@ -101,6 +102,16 @@ public class CheckingBankAccountTest {
 
         // WHEN THEN
         Throwable throwable = assertThrows(IllegalArgumentException.class, () -> senderAccount.sendTransfer(ZERO_MONEY_AMOUNT, recipientAccount));
+        assertEquals("Cannot perform this operation - invalid amount.", throwable.getMessage());
+    }
+
+    @Test
+    @DisplayName("The transfer should not be performed when value is less than zero")
+    public void shouldThrowIllegalArgumentException_WhenTransferringMoneyIsLessThenZero(){
+        // GIVEN
+
+        // WHEN THEN
+        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> senderAccount.sendTransfer(NEGATIVE_MONEY_AMOUNT, recipientAccount));
         assertEquals("Cannot perform this operation - invalid amount.", throwable.getMessage());
     }
 

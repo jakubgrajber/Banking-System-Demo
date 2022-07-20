@@ -26,4 +26,8 @@ public class AccountService {
     public Optional<AccountEntity> findById(String senderAccountNumber) {
         return accountRepository.findById(UUID.fromString(senderAccountNumber));
     }
+
+    public void updateBalance(AccountEntity senderAccountEntity) {
+        accountRepository.save(senderAccountEntity);
+    }
 }
