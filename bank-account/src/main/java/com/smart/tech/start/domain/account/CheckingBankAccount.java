@@ -31,20 +31,23 @@ public class CheckingBankAccount implements BankAccount {
         balance = new Money(BigDecimal.ZERO, currency);
     }
 
-    public Money getBalance() {
-        return this.balance;
-    }
-
     @Override
     public void sendTransfer(Money money, BankAccount recipient) {
         if (recipient == null)
             throw new IllegalArgumentException("Cannot perform this operation - invalid recipient.");
         if (money.getAmount().compareTo(BigDecimal.ZERO) <= 0)
             throw new IllegalArgumentException("Cannot perform this operation - invalid amount.");
-        if (balance.compareTo(money) < 0)
+
+        Money moneyToChargeFromSenderAccount;
+        if (!money.isSameCurrencyAs(this.balance)){
+            moneyToChargeFromSenderAccount = ratesService.exchange(money, this.currency);
+        } else moneyToChargeFromSenderAccount = money;
+        if (balance.compareTo(moneyToChargeFromSenderAccount) < 0)
             throw new IllegalArgumentException("Cannot perform this operation - not sufficient funds.");
 
-        balance = balance.subtract(money);
+        System.out.println(moneyToChargeFromSenderAccount);
+
+        balance = balance.subtract(moneyToChargeFromSenderAccount);
         recipient.receiveTransfer(money, this);
     }
 
@@ -63,16 +66,20 @@ public class CheckingBankAccount implements BankAccount {
         return balance.isZero();
     }
 
+    public Money getBalance() {
+        return this.balance;
+    }
+
     public void setBalance(Money accountBalance) {
         this.balance = accountBalance;
     }
 
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
-    }
-
     public Currency getCurrency() {
         return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 
     @Override

@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Currency;
 import java.util.Objects;
 
@@ -23,6 +24,11 @@ public class Money implements Comparable<Money>, Serializable {
     public Money(BigDecimal amount) {
         this.amount = amount;
         this.currency = DEFAULT_CURRENCY;
+    }
+
+    public Money(Money that){
+        this.amount = that.amount;
+        this.currency = that.currency;
     }
 
     public Money(BigDecimal amount, Currency currency) {
@@ -54,6 +60,10 @@ public class Money implements Comparable<Money>, Serializable {
     public Money subtract(Money that){
         checkCurrenciesMatch(that);
         return new Money(amount.subtract(that.amount), currency);
+    }
+
+    public Money div(BigDecimal that){
+        return new Money(amount.divide(that,8, RoundingMode.HALF_UP), currency);
     }
 
     public boolean isZero(){

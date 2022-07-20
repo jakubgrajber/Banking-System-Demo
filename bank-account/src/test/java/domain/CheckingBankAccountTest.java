@@ -19,10 +19,12 @@ public class CheckingBankAccountTest {
 
     public static final Currency DEFAULT_CURRENCY = Currency.getInstance("PLN");
     public static final BigDecimal PLN_TO_EUR = new BigDecimal("0.21");
-
-    public static final Money NEGATIVE_MONEY_AMOUNT = new Money(new BigDecimal(-1),DEFAULT_CURRENCY);
-    public static final Money ZERO_MONEY_AMOUNT = new Money(new BigDecimal(BigInteger.ZERO),DEFAULT_CURRENCY);
+    public static final Money MONEY_IN_ANOTHER_CURRENCY = new Money(new BigDecimal("123.45"), Currency.getInstance("EUR"));
+    public static final Money NEGATIVE_MONEY_AMOUNT = new Money(new BigDecimal(-1), DEFAULT_CURRENCY);
+    public static final Money ZERO_MONEY_AMOUNT = new Money(new BigDecimal(BigInteger.ZERO), DEFAULT_CURRENCY);
     public static final Money ACCOUNT_BALANCE = new Money(new BigDecimal(5000), DEFAULT_CURRENCY);
+    public static final Money BALANCE_AFTER_TRANSFER_IN_ANOTHER_CURRENCY = new Money(ACCOUNT_BALANCE.subtract(
+                            new Money(MONEY_IN_ANOTHER_CURRENCY.div(PLN_TO_EUR).getAmount(), DEFAULT_CURRENCY)).getAmount(), DEFAULT_CURRENCY);
     public static final Money GREATER_THAN_ACCOUNT_BALANCE = new Money(new BigDecimal(5001), DEFAULT_CURRENCY);
     public static final Money MONEY_TO_TRANSFER = new Money(new BigDecimal("123.45"), DEFAULT_CURRENCY);
     public static final Money EUR_ACCOUNT_BALANCE_AFTER_PLN_TRANSFER = new Money(MONEY_TO_TRANSFER.getAmount().multiply(PLN_TO_EUR));
@@ -97,7 +99,7 @@ public class CheckingBankAccountTest {
 
     @Test
     @DisplayName("The transfer should not be performed when it's equal to zero")
-    public void shouldThrowIllegalArgumentException_WhenTransferringMoneyIsEqualToZero(){
+    public void shouldThrowIllegalArgumentException_WhenTransferringMoneyIsEqualToZero() {
         // GIVEN
 
         // WHEN THEN
@@ -107,7 +109,7 @@ public class CheckingBankAccountTest {
 
     @Test
     @DisplayName("The transfer should not be performed when value is less than zero")
-    public void shouldThrowIllegalArgumentException_WhenTransferringMoneyIsLessThenZero(){
+    public void shouldThrowIllegalArgumentException_WhenTransferringMoneyIsLessThenZero() {
         // GIVEN
 
         // WHEN THEN
@@ -116,8 +118,8 @@ public class CheckingBankAccountTest {
     }
 
     @Test
-    @DisplayName("The transfer with different currencie should increase balance of the recipient account")
-    public void shouldIncreaseRecipientAccountBalance_WhenTransferWithDifferentCurrencyIsPerformed(){
+    @DisplayName("The transfer with different currencies should increase balance of the recipient account")
+    public void shouldIncreaseRecipientAccountBalance_WhenTransferWithDifferentCurrencyIsPerformed() {
         // GIVEN
         senderAccount.setBalance(ACCOUNT_BALANCE);
         CheckingBankAccount eurAccount = new CheckingBankAccount(new CurrencyRatesServiceTestingImpl(), Currency.getInstance("EUR"));
@@ -127,6 +129,21 @@ public class CheckingBankAccountTest {
 
         // THEN
         assertEquals(EUR_ACCOUNT_BALANCE_AFTER_PLN_TRANSFER.getAmount(), eurAccount.getBalance().getAmount());
+    }
+
+    @Test
+    @DisplayName("Should be able to transfer money in other currencies")
+    public void shouldBeAbleToTransferMoneyInOtherCurrencies() {
+        // GIVEN
+        senderAccount.setBalance(ACCOUNT_BALANCE);
+        CheckingBankAccount eurRecipientAccount = new CheckingBankAccount(new CurrencyRatesServiceTestingImpl(), Currency.getInstance("EUR"));
+
+        // WHEN
+        senderAccount.sendTransfer(MONEY_IN_ANOTHER_CURRENCY, eurRecipientAccount);
+
+        // THEN
+        assertEquals(BALANCE_AFTER_TRANSFER_IN_ANOTHER_CURRENCY.getAmount(), senderAccount.getBalance().getAmount());
+        assertEquals(MONEY_IN_ANOTHER_CURRENCY.getAmount(), eurRecipientAccount.getBalance().getAmount());
     }
 
 }

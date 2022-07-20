@@ -4,6 +4,7 @@ package com.smart.tech.start.domain.service;
 import com.smart.tech.start.domain.utilities.Money;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Currency;
 
 /**
@@ -16,7 +17,13 @@ public class CurrencyRatesServiceTestingImpl implements CurrencyRatesService {
 
     @Override
     public Money exchange(Money from, Currency to) {
-        BigDecimal newAmount = from.getAmount().multiply(PLN_TO_EUR);
+        BigDecimal newAmount;
+        if (from.getCurrency().getCurrencyCode().equals("PLN")) {
+            newAmount = from.getAmount().multiply(PLN_TO_EUR);
+        }
+        else {
+            newAmount = from.getAmount().divide(PLN_TO_EUR, 8, RoundingMode.HALF_UP);
+        }
         return new Money(newAmount, to);
     }
 }

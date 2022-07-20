@@ -51,7 +51,7 @@ public class TransferController {
         CheckingBankAccount senderAccount = mapper.entityToDomainModel(senderAccountEntity);
         CheckingBankAccount recipientAccount = mapper.entityToDomainModel(recipientAccountEntity);
 
-        senderAccount.setBalance(new Money(new BigDecimal(5000), Currency.getInstance(request.getCurrencyCode())));
+//        senderAccount.setBalance(new Money(new BigDecimal(5000), Currency.getInstance(request.getCurrencyCode())));
 
         Money moneyToTransfer = new Money(request.getAmount(), Currency.getInstance(request.getCurrencyCode()));
 
