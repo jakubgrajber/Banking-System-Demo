@@ -18,7 +18,7 @@ import java.util.Currency;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/transfer")
+@RequestMapping("api/account")
 @AllArgsConstructor
 @Slf4j
 public class TransferController {
