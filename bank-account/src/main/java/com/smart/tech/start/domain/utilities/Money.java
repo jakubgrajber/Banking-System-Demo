@@ -8,27 +8,32 @@ import java.math.RoundingMode;
 import java.util.Currency;
 import java.util.Objects;
 
+/**
+ * Simple Money model in context of doing digital transactions.
+ *
+ * All math operations on two Money objects can only be performed if their currencies are the same.
+ */
+
 public class Money implements Comparable<Money>, Serializable {
 
+    /**
+     * MismatchedCurrencyException is thrown when the operation
+     * cannot be performed due to different currencies.
+     */
     public static final class MismatchedCurrencyException extends RuntimeException {
         MismatchedCurrencyException(String message) {
             super(message);
         }
     }
 
-    private BigDecimal amount;
-    private Currency currency;
+    private final BigDecimal amount;
+    private final Currency currency;
 
     private static Currency DEFAULT_CURRENCY = Currency.getInstance("PLN");
 
     public Money(BigDecimal amount) {
         this.amount = amount;
         this.currency = DEFAULT_CURRENCY;
-    }
-
-    public Money(Money that){
-        this.amount = that.amount;
-        this.currency = that.currency;
     }
 
     public Money(BigDecimal amount, Currency currency) {
@@ -57,17 +62,13 @@ public class Money implements Comparable<Money>, Serializable {
         return new Money(amount.add(that.amount), currency);
     }
 
-    public Money subtract(Money that){
+    public Money subtract(Money that) {
         checkCurrenciesMatch(that);
         return new Money(amount.subtract(that.amount), currency);
     }
 
-    public Money div(BigDecimal that){
-        return new Money(amount.divide(that,8, RoundingMode.HALF_UP), currency);
-    }
-
-    public boolean isZero(){
-        return amount.compareTo(BigDecimal.ZERO) == 0;
+    public Money div(BigDecimal that) {
+        return new Money(amount.divide(that, 8, RoundingMode.HALF_UP), currency);
     }
 
     @Override
@@ -92,8 +93,8 @@ public class Money implements Comparable<Money>, Serializable {
         return Objects.hash(amount, currency);
     }
 
-    private void checkCurrenciesMatch(Money that){
-        if (! this.currency.equals(that.getCurrency())) {
+    private void checkCurrenciesMatch(Money that) {
+        if (!this.currency.equals(that.getCurrency())) {
             throw new MismatchedCurrencyException(
                     "This operation cannot be performed in two different currencies.");
         }

@@ -7,15 +7,23 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.UUID;
+
+/**
+ * CheckingBankAccountEntity is na entity that stores the account balance.
+ *
+ * After creating new one, the balance is zero.
+ * For training purposes the accountNumber (identifier) is just a UUID.
+ */
 
 @Entity
 @Getter
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
-@Table(name = "bank_accounts")
-public class AccountEntity {
+@Table(name = "checking_bank_accounts")
+public class CheckingBankAccountEntity {
 
     @Id
     @GeneratedValue
@@ -27,8 +35,8 @@ public class AccountEntity {
     @Column(nullable = false)
     private String currencyCode;
 
-    public AccountEntity(String currencyCode) {
+    public CheckingBankAccountEntity(String currencyCode) {
         this.currencyCode = currencyCode;
-        this.balance = new BigDecimal(0);
+        this.balance = new BigDecimal(BigInteger.ZERO);
     }
 }

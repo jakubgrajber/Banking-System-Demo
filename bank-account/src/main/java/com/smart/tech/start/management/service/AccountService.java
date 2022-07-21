@@ -1,6 +1,6 @@
 package com.smart.tech.start.management.service;
 
-import com.smart.tech.start.management.entity.AccountEntity;
+import com.smart.tech.start.management.entity.CheckingBankAccountEntity;
 import com.smart.tech.start.management.repository.AccountRepository;
 import com.smart.tech.start.management.request.RegistrationRequest;
 import lombok.AllArgsConstructor;
@@ -16,18 +16,18 @@ public class AccountService {
     private final AccountRepository accountRepository;
 
     public void register(RegistrationRequest request) {
-        accountRepository.save(new AccountEntity(request.getCurrencyCode()));
+        accountRepository.save(new CheckingBankAccountEntity(request.getCurrencyCode()));
     }
 
     public void delete(UUID accountNumber) {
         accountRepository.deleteById(accountNumber);
     }
 
-    public Optional<AccountEntity> findById(String senderAccountNumber) {
+    public Optional<CheckingBankAccountEntity> findById(String senderAccountNumber) {
         return accountRepository.findById(UUID.fromString(senderAccountNumber));
     }
 
-    public void updateBalance(AccountEntity senderAccountEntity) {
+    public void updateBalance(CheckingBankAccountEntity senderAccountEntity) {
         accountRepository.save(senderAccountEntity);
     }
 }

@@ -7,6 +7,17 @@ import com.smart.tech.start.domain.utilities.Money;
 import java.math.BigDecimal;
 import java.util.Currency;
 
+/**
+ * This implementation of the BankAccount interface imitates checking bank account.
+ *
+ * The purpose of the CheckingBankAccount domain model is to control flow of deposits and withdrawals.
+ *
+ * It has the main currency in which money is stored.
+ * Transactions in main currency are made immediately,
+ * but it also allows you to make payments and receive funds in other currencies.
+ * Then the money is exchanged according to the current rates.
+ */
+
 public class CheckingBankAccount implements BankAccount {
 
     private final CurrencyRatesService ratesService;
@@ -32,14 +43,14 @@ public class CheckingBankAccount implements BankAccount {
     }
 
     @Override
-    public void sendTransfer(Money money, BankAccount recipient) {
+    public void send(Money money, BankAccount recipient) {
         if (recipient == null)
             throw new IllegalArgumentException("Cannot perform this operation - invalid recipient.");
         if (money.getAmount().compareTo(BigDecimal.ZERO) <= 0)
             throw new IllegalArgumentException("Cannot perform this operation - invalid amount.");
 
         Money moneyToChargeFromSenderAccount;
-        if (!money.isSameCurrencyAs(this.balance)){
+        if (!money.isSameCurrencyAs(this.balance)) {
             moneyToChargeFromSenderAccount = ratesService.exchange(money, this.currency);
         } else moneyToChargeFromSenderAccount = money;
         if (balance.compareTo(moneyToChargeFromSenderAccount) < 0)
@@ -48,22 +59,16 @@ public class CheckingBankAccount implements BankAccount {
         System.out.println(moneyToChargeFromSenderAccount);
 
         balance = balance.subtract(moneyToChargeFromSenderAccount);
-        recipient.receiveTransfer(money, this);
+        recipient.receive(money, this);
     }
 
-    @Override
-    public void receiveTransfer(Money money, BankAccount sender) {
+    public void receive(Money money, BankAccount sender) {
         if (!money.isSameCurrencyAs(balance)) {
             Money exchangedMoney = ratesService.exchange(money, this.currency);
             balance = balance.add(exchangedMoney);
         } else {
             balance = balance.add(money);
         }
-    }
-
-    @Override
-    public boolean isBalanceEmpty() {
-        return balance.isZero();
     }
 
     public Money getBalance() {

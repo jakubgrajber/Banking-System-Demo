@@ -20,7 +20,7 @@ public class AccountController {
     }
 
     @DeleteMapping
-    public void deleteAccount(@RequestParam UUID accountNumber){
+    public void deleteAccount(@RequestParam UUID accountNumber) {
         registrationService.delete(accountNumber);
     }
 }

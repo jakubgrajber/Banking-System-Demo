@@ -1,7 +1,6 @@
-package com.smart.tech.start.model;
+package com.smart.tech.start.transfer.a2a;
 
 import lombok.*;
-
 import java.math.BigDecimal;
 
 @Getter
@@ -10,6 +9,7 @@ import java.math.BigDecimal;
 @EqualsAndHashCode
 @ToString
 public class TransferA2ARequest {
+
     private String senderAccountNumber;
     private String recipientAccountNumber;
     private BigDecimal amount;

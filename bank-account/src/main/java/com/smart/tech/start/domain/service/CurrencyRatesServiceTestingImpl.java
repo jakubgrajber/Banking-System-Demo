@@ -20,8 +20,7 @@ public class CurrencyRatesServiceTestingImpl implements CurrencyRatesService {
         BigDecimal newAmount;
         if (from.getCurrency().getCurrencyCode().equals("PLN")) {
             newAmount = from.getAmount().multiply(PLN_TO_EUR);
-        }
-        else {
+        } else {
             newAmount = from.getAmount().divide(PLN_TO_EUR, 8, RoundingMode.HALF_UP);
         }
         return new Money(newAmount, to);

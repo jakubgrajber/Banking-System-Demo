@@ -55,7 +55,7 @@ public class CheckingBankAccountTest {
         senderAccount.setBalance(ACCOUNT_BALANCE);
 
         // WHEN THEN
-        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> senderAccount.sendTransfer(GREATER_THAN_ACCOUNT_BALANCE, recipientAccount));
+        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> senderAccount.send(GREATER_THAN_ACCOUNT_BALANCE, recipientAccount));
         assertEquals("Cannot perform this operation - not sufficient funds.", throwable.getMessage());
     }
 
@@ -66,7 +66,7 @@ public class CheckingBankAccountTest {
         senderAccount.setBalance(ACCOUNT_BALANCE);
 
         // WHEN
-        senderAccount.sendTransfer(MONEY_TO_TRANSFER, recipientAccount);
+        senderAccount.send(MONEY_TO_TRANSFER, recipientAccount);
 
         // THEN
         assertTrue(senderAccount.getBalance().equals(ACCOUNT_BALANCE_AFTER_TRANSFER));
@@ -80,7 +80,7 @@ public class CheckingBankAccountTest {
         BankAccount nullAccount = null;
 
         // WHEN THEN
-        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> senderAccount.sendTransfer(MONEY_TO_TRANSFER, nullAccount));
+        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> senderAccount.send(MONEY_TO_TRANSFER, nullAccount));
         assertEquals("Cannot perform this operation - invalid recipient.", throwable.getMessage());
     }
 
@@ -91,7 +91,7 @@ public class CheckingBankAccountTest {
         senderAccount.setBalance(ACCOUNT_BALANCE);
 
         // WHEN
-        senderAccount.sendTransfer(MONEY_TO_TRANSFER, recipientAccount);
+        senderAccount.send(MONEY_TO_TRANSFER, recipientAccount);
 
         // THEN
         assertTrue(recipientAccount.getBalance().equals(MONEY_TO_TRANSFER));
@@ -103,7 +103,7 @@ public class CheckingBankAccountTest {
         // GIVEN
 
         // WHEN THEN
-        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> senderAccount.sendTransfer(ZERO_MONEY_AMOUNT, recipientAccount));
+        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> senderAccount.send(ZERO_MONEY_AMOUNT, recipientAccount));
         assertEquals("Cannot perform this operation - invalid amount.", throwable.getMessage());
     }
 
@@ -113,7 +113,7 @@ public class CheckingBankAccountTest {
         // GIVEN
 
         // WHEN THEN
-        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> senderAccount.sendTransfer(NEGATIVE_MONEY_AMOUNT, recipientAccount));
+        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> senderAccount.send(NEGATIVE_MONEY_AMOUNT, recipientAccount));
         assertEquals("Cannot perform this operation - invalid amount.", throwable.getMessage());
     }
 
@@ -125,7 +125,7 @@ public class CheckingBankAccountTest {
         CheckingBankAccount eurAccount = new CheckingBankAccount(new CurrencyRatesServiceTestingImpl(), Currency.getInstance("EUR"));
 
         // WHEN
-        senderAccount.sendTransfer(MONEY_TO_TRANSFER, eurAccount);
+        senderAccount.send(MONEY_TO_TRANSFER, eurAccount);
 
         // THEN
         assertEquals(EUR_ACCOUNT_BALANCE_AFTER_PLN_TRANSFER.getAmount(), eurAccount.getBalance().getAmount());
@@ -139,7 +139,7 @@ public class CheckingBankAccountTest {
         CheckingBankAccount eurRecipientAccount = new CheckingBankAccount(new CurrencyRatesServiceTestingImpl(), Currency.getInstance("EUR"));
 
         // WHEN
-        senderAccount.sendTransfer(MONEY_IN_ANOTHER_CURRENCY, eurRecipientAccount);
+        senderAccount.send(MONEY_IN_ANOTHER_CURRENCY, eurRecipientAccount);
 
         // THEN
         assertEquals(BALANCE_AFTER_TRANSFER_IN_ANOTHER_CURRENCY.getAmount(), senderAccount.getBalance().getAmount());

@@ -1,12 +1,13 @@
 package com.smart.tech.start.domain.account;
 
-
 import com.smart.tech.start.domain.utilities.Money;
 
+/**
+ * This interface imposes the general behaviour of a bank account on its specific implementation.
+ */
+
 public interface BankAccount {
-    void sendTransfer(Money money, BankAccount recipient);
+    void send(Money money, BankAccount recipient);
 
-    void receiveTransfer(Money money, BankAccount sender);
-
-    boolean isBalanceEmpty();
+    void receive(Money money, BankAccount sender);
 }
