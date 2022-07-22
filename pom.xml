@@ -19,6 +19,7 @@
     <module>user-client</module>
       <module>transactions</module>
       <module>bank-account</module>
+      <module>bank-account-client</module>
   </modules>
 
   <properties>

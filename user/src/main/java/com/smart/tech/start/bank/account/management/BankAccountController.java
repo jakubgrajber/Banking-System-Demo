@@ -1,6 +1,7 @@
 package com.smart.tech.start.bank.account.management;
 
 import com.smart.tech.start.bank.account.management.client.AccountClient;
+import com.smart.tech.start.request.BankAccountRegistrationRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

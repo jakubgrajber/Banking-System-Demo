@@ -1,6 +1,6 @@
 package com.smart.tech.start.bank.account.management.client;
 
-import com.smart.tech.start.bank.account.management.BankAccountRegistrationRequest;
+import com.smart.tech.start.request.BankAccountRegistrationRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 

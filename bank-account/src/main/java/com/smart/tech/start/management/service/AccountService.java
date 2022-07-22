@@ -2,7 +2,7 @@ package com.smart.tech.start.management.service;
 
 import com.smart.tech.start.management.entity.CheckingBankAccountEntity;
 import com.smart.tech.start.management.repository.AccountRepository;
-import com.smart.tech.start.management.request.RegistrationRequest;
+import com.smart.tech.start.request.BankAccountRegistrationRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
 
-    public void register(RegistrationRequest request) {
+    public void register(BankAccountRegistrationRequest request) {
         accountRepository.save(new CheckingBankAccountEntity(request.getCurrencyCode()));
     }
 

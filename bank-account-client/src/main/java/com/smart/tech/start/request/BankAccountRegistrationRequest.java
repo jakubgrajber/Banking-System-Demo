@@ -1,4 +1,4 @@
-package com.smart.tech.start.bank.account.management;
+package com.smart.tech.start.request;
 
 import lombok.*;
 
