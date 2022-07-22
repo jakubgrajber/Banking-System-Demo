@@ -9,6 +9,5 @@ import lombok.*;
 @ToString
 public class BankAccountRegistrationRequest {
     private String userEmail;
-    private String accountType;
     private String currencyCode;
 }

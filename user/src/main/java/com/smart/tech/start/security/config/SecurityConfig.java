@@ -23,16 +23,6 @@ public class SecurityConfig {
     private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-//    @Bean
-//    public InMemoryUserDetailsManager userDetailsService() {
-//        UserDetails user = User.withDefaultPasswordEncoder()
-//                .username("user")
-//                .password("password")
-//                .roles("USER")
-//                .build();
-//        return new InMemoryUserDetailsManager(user);
-//    }
-
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().antMatchers("/h2/**");
@@ -50,25 +40,6 @@ public class SecurityConfig {
                 .formLogin();
         return http.build();
     }
-
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http.authorizeHttpRequests((authz) -> {
-//            try {
-//                authz
-//                        .anyRequest().authenticated()
-//                        .and()
-//                        .formLogin()
-//                        .loginProcessingUrl("/authenticateTheUser")
-//                        .permitAll();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        ).httpBasic(withDefaults());
-//
-//        return http.build();
-//    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {

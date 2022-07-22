@@ -1,26 +1,28 @@
 package com.smart.tech.start.bank.account.management;
 
+import com.smart.tech.start.bank.account.management.client.AccountClient;
 import lombok.AllArgsConstructor;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/user/bank-account")
 @AllArgsConstructor
 public class BankAccountController {
 
-    private WebClient.Builder webClientBuilder;
+    private AccountClient accountClient;
 
     @PostMapping
-    public void createNewAccount(@RequestBody BankAccountRegistrationRequest request){
-        MultiValueMap<String,String> bodyValues = new LinkedMultiValueMap<>();
+    public void createAccount(@RequestBody BankAccountRegistrationRequest request){
 
-        bodyValues.add("userEmail", request.getUserEmail());
-        bodyValues.add("currencyCode", request.getCurrencyCode());
-
-        webClientBuilder.build().post().uri("http://bank-account/api/account").body(BodyInserters.fromFormData(bodyValues));
+        accountClient.createAccount(request);
     }
+
+    @DeleteMapping
+    public void deleteAccount(@RequestParam UUID bankAccountNumber) {
+        accountClient.removeAccount(bankAccountNumber);
+    }
+
+
 }
