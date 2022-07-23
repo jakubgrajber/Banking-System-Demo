@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping(path = "api/registration")
-public class RegistrationController {
+public class UserRegistrationController {
 
     private final UserRegistrationService registrationService;
 

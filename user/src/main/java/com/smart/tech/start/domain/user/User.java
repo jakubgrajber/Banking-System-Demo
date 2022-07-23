@@ -1,9 +1,8 @@
 package com.smart.tech.start.domain.user;
 
-import com.smart.tech.start.domain.account.BankAccount;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * User is a domain model that represents a client.
@@ -19,7 +18,7 @@ public class User {
     private String email;
     private String password;
 
-    private List<BankAccount> accounts = new ArrayList<>(3);
+    private List<UUID> accounts = new ArrayList<>(3);
     private Boolean enabled = false;
 
     public User(){
@@ -32,7 +31,7 @@ public class User {
         this.password = password;
     }
 
-    public void addAccount(BankAccount account) {
+    public void addAccount(UUID account) {
         if (!enabled)
             throw new IllegalStateException("Cannot add an account for disabled User.");
 
@@ -45,7 +44,7 @@ public class User {
         enabled = true;
     }
 
-    public List<BankAccount> getAccounts() {
+    public List<UUID> getAccounts() {
         return accounts;
     }
 
@@ -53,13 +52,11 @@ public class User {
         return enabled;
     }
 
-    public void removeAccount(BankAccount account) {
+    public void removeAccount(UUID account) {
         if (!enabled)
             throw new IllegalStateException("Cannot remove account - User is disabled.");
         if (!accounts.contains(account))
             throw new IllegalStateException("There is no such account assigned to this User.");
-        if (!account.isBalanceEmpty())
-            throw new IllegalStateException("Cannot remove account with non-zero balance.");
         accounts.remove(account);
     }
 

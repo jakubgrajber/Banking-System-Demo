@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * UserEntity is a main entity, and it is used to registration and login process.
@@ -43,6 +44,9 @@ public class UserEntity implements UserDetails {
 
     @Column(nullable = false, unique = true, length = 45)
     private String email;
+
+    @OneToMany(mappedBy = "user")
+    private List<BankAccountEntity> bankAccounts;
 
     @Enumerated(EnumType.STRING)
     private UserRole userRole;

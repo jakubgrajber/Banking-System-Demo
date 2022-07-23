@@ -1,12 +1,12 @@
 package com.smart.tech.start.domain;
 
-import com.smart.tech.start.domain.account.CheckingBankAccount;
 import com.smart.tech.start.domain.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -19,11 +19,11 @@ public class UserTest {
     private static final String PASSWORD = "password";
     private static final String EMAIL = "j.h@example.com";
 
-    private CheckingBankAccount account;
+    private UUID account;
 
     @BeforeEach
     void setUp() {
-        account = new CheckingBankAccount();
+        account = UUID.randomUUID();
     }
 
     @Test
@@ -97,19 +97,6 @@ public class UserTest {
 
         // THEN
         assertEquals(0, user.getAccounts().size());
-    }
-
-    @Test
-    @DisplayName("Enabled user cannot to be enabled again")
-    public void shouldThrowIllegalStateException_WhenRemoveAccountWithBalanceThatNotEqualsZero() {
-        // GIVEN
-        account.setBalance(POSITIVE_MONEY_AMOUNT);
-        User user = createEnabledUser();
-        user.addAccount(account);
-
-        // WHEN THEN
-        Exception exception = assertThrows(IllegalStateException.class, () -> user.removeAccount(account));
-        assertEquals("Cannot remove account with non-zero balance.", exception.getMessage());
     }
 
     @Test

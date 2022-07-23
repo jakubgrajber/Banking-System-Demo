@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@FeignClient(name = "bank-account", path = "api/account")
+@FeignClient("bank-account")
 public interface AccountClient {
 
-    @PostMapping
+    @RequestMapping(method = RequestMethod.POST, value = "api/account")
     void createAccount(@RequestBody BankAccountRegistrationRequest request);
 
     @RequestMapping(method = RequestMethod.DELETE, value = "?accountNumber={id}")
