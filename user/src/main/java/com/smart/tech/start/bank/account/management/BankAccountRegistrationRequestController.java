@@ -22,7 +22,7 @@ public class BankAccountRegistrationRequestController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<String> sendRequest(@RequestBody BankAccountRegistrationRequest request){
+    public ResponseEntity<String> sendRegisterRequest(@RequestBody BankAccountRegistrationRequest request){
 
         UserEntity userEntity;
 
@@ -43,7 +43,10 @@ public class BankAccountRegistrationRequestController {
     }
 
     @DeleteMapping
-    public void deleteAccount(@RequestParam UUID bankAccountNumber) {
+    public void sendRemoveRequest(@RequestParam UUID bankAccountNumber) {
+
+
+
         accountClient.removeAccount(bankAccountNumber);
     }
 
