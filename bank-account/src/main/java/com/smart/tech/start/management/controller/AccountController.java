@@ -1,5 +1,7 @@
 package com.smart.tech.start.management.controller;
 
+import com.smart.tech.start.management.client.UserClient;
+import com.smart.tech.start.management.entity.CheckingBankAccountEntity;
 import com.smart.tech.start.management.service.AccountService;
 import com.smart.tech.start.request.BankAccountRegistrationRequest;
 import lombok.AllArgsConstructor;
@@ -12,15 +14,20 @@ import java.util.UUID;
 @RequestMapping(path = "api/account")
 public class AccountController {
 
-    private final AccountService registrationService;
+    private final AccountService accountService;
+    private final UserClient userClient;
 
     @PostMapping
     public void registerNewAccount(@RequestBody BankAccountRegistrationRequest request) {
-        registrationService.register(request);
+        accountService.register(request);
+
+        CheckingBankAccountEntity account = accountService.findByEmail(request.getUserEmail());
+
+        userClient.updateUserWithNewAccountNumber(account.getAccountNumber(), request.getUserEmail());
     }
 
     @DeleteMapping
     public void deleteAccount(@RequestParam UUID accountNumber) {
-        registrationService.delete(accountNumber);
+        accountService.delete(accountNumber);
     }
 }

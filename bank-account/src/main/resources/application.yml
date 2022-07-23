@@ -11,3 +11,14 @@ eureka:
 spring:
   application:
     name: bank-account
+
+#feign:
+#  client:
+#    config:
+#      default:
+#        connectTimeout: 5000
+#        readTimeout: 5000
+#        loggerLevel: basic
+#      product:
+#        connectTimeout: 5000
+#        readTimeout: 5000

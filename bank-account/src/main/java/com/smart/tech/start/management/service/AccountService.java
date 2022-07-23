@@ -12,11 +12,10 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class AccountService {
-
     private final AccountRepository accountRepository;
 
     public void register(BankAccountRegistrationRequest request) {
-        accountRepository.save(new CheckingBankAccountEntity(request.getCurrencyCode()));
+        accountRepository.save(new CheckingBankAccountEntity(request.getCurrencyCode(), request.getUserEmail()));
     }
 
     public void delete(UUID accountNumber) {
@@ -29,5 +28,9 @@ public class AccountService {
 
     public void updateBalance(CheckingBankAccountEntity senderAccountEntity) {
         accountRepository.save(senderAccountEntity);
+    }
+
+    public CheckingBankAccountEntity findByEmail(String userEmail) {
+        return accountRepository.findByCreatedBy(userEmail);
     }
 }

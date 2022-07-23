@@ -35,8 +35,12 @@ public class CheckingBankAccountEntity {
     @Column(nullable = false)
     private String currencyCode;
 
-    public CheckingBankAccountEntity(String currencyCode) {
+    @Column(nullable = false)
+    private String createdBy;
+
+    public CheckingBankAccountEntity(String currencyCode, String createdBy) {
         this.currencyCode = currencyCode;
         this.balance = new BigDecimal(BigInteger.ZERO);
+        this.createdBy = createdBy;
     }
 }

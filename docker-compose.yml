@@ -62,6 +62,37 @@ services:
     depends_on:
       - eureka-server
 
+  transactionsApp:
+    image: "transactions"
+    build:
+      context: ./transactions
+      dockerfile: Dockerfile
+    container_name: transactionApp
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-transactions:5434/capgemini
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    ports:
+      - 6060:6060
+    depends_on:
+      - db-transactions
+    restart: on-failure
+
+  db-transactions:
+    image: postgres
+    container_name: db-transactions
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: capgemini
+    ports:
+      - 5434:5432
+    command:
+      - -p 5434
+    depends_on:
+      - eureka-server
+
   notificationsApp:
     image: "notifications"
     build:
