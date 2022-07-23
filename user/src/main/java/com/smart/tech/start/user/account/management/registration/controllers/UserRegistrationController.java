@@ -3,6 +3,8 @@ package com.smart.tech.start.user.account.management.registration.controllers;
 import com.smart.tech.start.user.account.management.registration.request.RegistrationRequest;
 import com.smart.tech.start.user.account.management.registration.service.UserRegistrationService;
 import lombok.AllArgsConstructor;
+import org.springframework.cloud.loadbalancer.core.DiscoveryClientServiceInstanceListSupplier;
+import org.springframework.cloud.netflix.eureka.EurekaDiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
