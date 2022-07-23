@@ -1,11 +1,18 @@
 package com.smart.tech.start.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smart.tech.start.model.TransferA2AEntity;
 import com.smart.tech.start.model.TransferA2ARequest;
 import com.smart.tech.start.model.TransferA2AService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -17,7 +24,8 @@ public class TransferController {
     private TransferA2AService transferA2AService;
 
     @PostMapping
-    public void createNewTransferRequest(@RequestBody TransferA2ARequest request){
+    public void createNewTransferRequest(@RequestBody TransferA2ARequest request) throws URISyntaxException, IOException, InterruptedException {
+
         TransferA2AEntity transfer = new TransferA2AEntity(
                 UUID.fromString(request.getSenderAccountNumber()),
                 request.getAmount(),
@@ -29,11 +37,20 @@ public class TransferController {
 
         transferA2AService.save(transfer);
 
-        // call to bank-account
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonRequest = mapper.writeValueAsString(request);
+        HttpRequest.BodyPublisher requestBody = HttpRequest.BodyPublishers.ofString(jsonRequest);
+
+        HttpRequest transferRequest = HttpRequest.newBuilder()
+                .uri(new URI("http://bank-account:7070/api/account"))
+                .method("PATCH", requestBody).build();
+
+        HttpClient httpClient = HttpClient.newHttpClient();
+        httpClient.send(transferRequest, HttpResponse.BodyHandlers.ofString());
     }
 
     @PatchMapping
-    public void getTransferResult(){
+    public void updateTransfer(){
 
     }
 }

@@ -1,5 +1,5 @@
 FROM openjdk
 
-ADD target/user-1.0-SNAPSHOT.jar user.jar
+ADD target/transactions-1.0-SNAPSHOT.jar transactions.jar
 
-ENTRYPOINT ["java", "-jar", "user.jar"]
+ENTRYPOINT ["java", "-jar", "transactions.jar"]
