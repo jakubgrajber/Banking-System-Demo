@@ -2,7 +2,7 @@ package com.smart.tech.start.security.config;
 
 import com.smart.tech.start.security.filter.CustomAuthenticationFilter;
 import com.smart.tech.start.security.filter.CustomAuthorizationFilter;
-import com.smart.tech.start.user.account.management.registration.service.UserService;
+import com.smart.tech.start.user.account.management.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

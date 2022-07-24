@@ -21,7 +21,7 @@ public class User {
     private List<UUID> accounts = new ArrayList<>(3);
     private Boolean enabled = false;
 
-    public User(){
+    public User() {
     }
 
     public User(String firstName, String lastName, String email, String password) {
@@ -93,6 +93,7 @@ public class User {
     public void changePassword(String newPassword) {
         this.password = newPassword;
     }
+
     public void changeEmail(String newEmail) {
         this.email = newEmail;
     }

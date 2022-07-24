@@ -29,6 +29,7 @@ services:
       - 5433:5432
     depends_on:
       - eureka-server
+      - broker
 
   userApp:
     image: "user"
@@ -77,6 +78,9 @@ services:
       - 6060:6060
     depends_on:
       - db-transactions
+      - eureka-server
+      - config-server
+      - broker
     restart: on-failure
 
   db-transactions:
@@ -100,8 +104,8 @@ services:
       dockerfile: Dockerfile
     container_name: notificationsApp
     depends_on:
-      - db-bank-account
-      - db-user
+      - bankAccountApp
+      - userApp
       - eureka-server
       - config-server
       - broker
@@ -126,6 +130,7 @@ services:
     depends_on:
       - db-bank-account
       - db-user
+      - db-transactions
     container_name: pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
@@ -138,6 +143,8 @@ services:
     container_name: maildev
     depends_on:
       - db-user
+      - db-bank-account
+      - db-transactions
     ports:
       - 1080:1080
       - 1025:1025
@@ -206,8 +213,6 @@ services:
       context: ./config-server
       dockerfile: Dockerfile
     container_name: config-server
-    depends_on:
-      - eureka-server
     ports:
       - 8888:8888
 

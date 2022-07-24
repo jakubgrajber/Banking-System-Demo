@@ -9,9 +9,9 @@ import java.util.Currency;
 
 /**
  * This implementation of the BankAccount interface imitates checking bank account.
- *
+ * <p>
  * The purpose of the CheckingBankAccount domain model is to control flow of deposits and withdrawals.
- *
+ * <p>
  * It has the main currency in which money is stored.
  * Transactions in main currency are made immediately,
  * but it also allows you to make payments and receive funds in other currencies.
