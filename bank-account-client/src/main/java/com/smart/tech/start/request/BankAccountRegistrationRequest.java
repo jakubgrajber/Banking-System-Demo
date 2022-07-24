@@ -3,6 +3,7 @@ package com.smart.tech.start.request;
 import lombok.*;
 
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
