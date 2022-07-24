@@ -36,7 +36,7 @@ public class AccountController {
         String username = decodedJWT.getSubject();
 
         if(!bodyRequest.getUserEmail().equals(username)){
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("The requested email and does not match the issuer's email.",HttpStatus.FORBIDDEN);
         } else {
             accountService.register(bodyRequest);
             CheckingBankAccountEntity account = accountService.findByEmail(bodyRequest.getUserEmail());
