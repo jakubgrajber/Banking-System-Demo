@@ -32,18 +32,19 @@ public class TransferController {
         CheckingBankAccountEntity senderAccountEntity = null;
         CheckingBankAccountEntity recipientAccountEntity = null;
 
-        Optional<CheckingBankAccountEntity> optionalSenderAccount = accountService.findById(request.getSenderAccountNumber());
-        if (optionalSenderAccount.isPresent()) {
-            senderAccountEntity = optionalSenderAccount.get();
-        } else {
+        try {
+            senderAccountEntity = accountService.findById(request.getSenderAccountNumber());
+        } catch (RuntimeException exception) {
+            log.error(exception.getMessage(), exception);
             return new ResponseEntity<>("Invalid sender bank account number.", HttpStatus.BAD_REQUEST);
         }
 
-        Optional<CheckingBankAccountEntity> optionalRecipientAccount = accountService.findById(request.getRecipientAccountNumber());
-        if (optionalRecipientAccount.isPresent()) {
-            recipientAccountEntity = optionalRecipientAccount.get();
-        } else {
+        try {
+            recipientAccountEntity = accountService.findById(request.getRecipientAccountNumber());
+        } catch (RuntimeException exception) {
+            log.error(exception.getMessage(), exception);
             return new ResponseEntity<>("Invalid recipient bank account number.", HttpStatus.BAD_REQUEST);
+
         }
 
         CheckingBankAccount senderAccount = mapper.entityToDomainModel(senderAccountEntity);

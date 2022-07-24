@@ -22,12 +22,14 @@ public class AccountService {
         accountRepository.deleteById(accountNumber);
     }
 
-    public Optional<CheckingBankAccountEntity> findById(String senderAccountNumber) {
-        return accountRepository.findById(UUID.fromString(senderAccountNumber));
+    public CheckingBankAccountEntity findById(String senderAccountNumber) {
+        return accountRepository.findById(UUID.fromString(senderAccountNumber)).orElseThrow(
+                () -> new RuntimeException(String.format("The account %s has not been found."))
+        );
     }
 
-    public void updateBalance(CheckingBankAccountEntity senderAccountEntity) {
-        accountRepository.save(senderAccountEntity);
+    public void updateBalance(CheckingBankAccountEntity account) {
+        accountRepository.save(account);
     }
 
     public CheckingBankAccountEntity findByEmail(String userEmail) {

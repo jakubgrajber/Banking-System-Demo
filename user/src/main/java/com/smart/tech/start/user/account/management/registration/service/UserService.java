@@ -67,4 +67,9 @@ public class UserService implements UserDetailsService {
     public int enableUser(String email) {
         return userRepository.enableUser(email);
     }
+
+    public UserEntity getUserById(long userId) {
+       return userRepository.findById(userId).orElseThrow(
+               () -> new RuntimeException(String.format("The user %d has not been found.", userId)));
+    }
 }
