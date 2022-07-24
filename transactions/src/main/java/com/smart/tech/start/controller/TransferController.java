@@ -2,8 +2,8 @@ package com.smart.tech.start.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smart.tech.start.model.TransferA2AEntity;
-import com.smart.tech.start.model.TransferA2ARequest;
 import com.smart.tech.start.model.TransferA2AService;
+import com.smart.tech.start.request.TransferA2ARequest;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

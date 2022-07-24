@@ -21,6 +21,7 @@
       <module>bank-account</module>
       <module>bank-account-client</module>
       <module>common</module>
+      <module>transactions-client</module>
   </modules>
 
   <properties>
