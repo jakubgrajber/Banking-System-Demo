@@ -5,18 +5,21 @@ import com.smart.tech.start.domain.utilities.CheckingBankAccountMapper;
 import com.smart.tech.start.domain.utilities.Money;
 import com.smart.tech.start.management.entity.CheckingBankAccountEntity;
 import com.smart.tech.start.management.service.AccountService;
+import com.smart.tech.start.request.TransactionStatus;
 import com.smart.tech.start.request.TransferA2ARequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Currency;
 import java.util.Optional;
+
+import static com.smart.tech.start.jwt.JwtUtil.extractSubject;
+import static com.smart.tech.start.jwt.JwtUtil.getAuthorizationHeader;
+import static com.smart.tech.start.request.TransactionStatus.*;
 
 @RestController
 @RequestMapping("api/account")
@@ -27,37 +30,50 @@ public class TransferController {
     private AccountService accountService;
     private CheckingBankAccountMapper mapper;
 
-    @PatchMapping
-    public ResponseEntity<String> processA2ATransfer(@RequestBody TransferA2ARequest request) {
+    @PutMapping
+    public ResponseEntity<TransferA2ARequest> processA2ATransfer(@RequestBody TransferA2ARequest bodyRequest, HttpServletRequest servletRequest) {
+
+        String header = getAuthorizationHeader(servletRequest);
+        String userEmail = extractSubject(servletRequest);
+
+        if (!accountService.emailsMatch(bodyRequest.getSenderAccountNumber(), userEmail)){
+            bodyRequest.setTransactionStatus(CANCELLED);
+            return new ResponseEntity<>(bodyRequest, HttpStatus.FORBIDDEN);
+        }
 
         CheckingBankAccountEntity senderAccountEntity = null;
         CheckingBankAccountEntity recipientAccountEntity = null;
 
         try {
-            senderAccountEntity = accountService.findById(request.getSenderAccountNumber());
+            senderAccountEntity = accountService.findById(bodyRequest.getSenderAccountNumber());
         } catch (RuntimeException exception) {
             log.error(exception.getMessage(), exception);
-            return new ResponseEntity<>("Invalid sender bank account number.", HttpStatus.BAD_REQUEST);
+            bodyRequest.setTransactionStatus(CANCELLED);
+            bodyRequest.setStatusDescription(exception.getMessage());
+            return new ResponseEntity<>(bodyRequest, HttpStatus.BAD_REQUEST);
         }
 
         try {
-            recipientAccountEntity = accountService.findById(request.getRecipientAccountNumber());
+            recipientAccountEntity = accountService.findById(bodyRequest.getRecipientAccountNumber());
         } catch (RuntimeException exception) {
             log.error(exception.getMessage(), exception);
-            return new ResponseEntity<>("Invalid recipient bank account number.", HttpStatus.BAD_REQUEST);
-
+            bodyRequest.setTransactionStatus(CANCELLED);
+            bodyRequest.setStatusDescription(exception.getMessage());
+            return new ResponseEntity<>(bodyRequest, HttpStatus.BAD_REQUEST);
         }
 
         CheckingBankAccount senderAccount = mapper.entityToDomainModel(senderAccountEntity);
         CheckingBankAccount recipientAccount = mapper.entityToDomainModel(recipientAccountEntity);
 
-        Money moneyToTransfer = new Money(request.getAmount(), Currency.getInstance(request.getCurrencyCode()));
+        Money moneyToTransfer = new Money(bodyRequest.getAmount(), Currency.getInstance(bodyRequest.getCurrencyCode()));
 
         try {
             senderAccount.send(moneyToTransfer, recipientAccount);
         } catch (RuntimeException exception) {
             log.error(exception.getMessage(), exception);
-            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+            bodyRequest.setTransactionStatus(NOT_SUFFICIENT_FUNDS);
+            bodyRequest.setStatusDescription(exception.getMessage());
+            return new ResponseEntity<>(bodyRequest, HttpStatus.BAD_REQUEST);
         }
 
         senderAccountEntity.setBalance(senderAccount.getBalance().getAmount());
@@ -66,6 +82,7 @@ public class TransferController {
         accountService.updateBalance(senderAccountEntity);
         accountService.updateBalance(recipientAccountEntity);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        bodyRequest.setTransactionStatus(DONE);
+        return new ResponseEntity<>(bodyRequest, HttpStatus.OK);
     }
 }

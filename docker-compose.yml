@@ -158,6 +158,7 @@ services:
     depends_on:
       - eureka-server
       - config-server
+    restart: on-failure
 
   broker:
     image: confluentinc/cp-kafka:7.0.1
@@ -174,6 +175,7 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+    restart: on-failure
 
   init-kafka:
     container_name: init-kafka

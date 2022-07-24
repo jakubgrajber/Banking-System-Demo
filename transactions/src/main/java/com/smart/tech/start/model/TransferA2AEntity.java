@@ -44,6 +44,9 @@ public class TransferA2AEntity {
     private String status;
 
     @Column
+    private String statusDescription;
+
+    @Column
     private String recipientCurrencyCode;
 
     @Column

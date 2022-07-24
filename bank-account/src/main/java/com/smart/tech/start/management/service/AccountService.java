@@ -35,4 +35,8 @@ public class AccountService {
     public CheckingBankAccountEntity findByEmail(String userEmail) {
         return accountRepository.findByCreatedBy(userEmail);
     }
+
+    public boolean emailsMatch(String senderAccountNumber, String issuerEmail) {
+        return findById(senderAccountNumber).getCreatedBy().equals(issuerEmail);
+    }
 }

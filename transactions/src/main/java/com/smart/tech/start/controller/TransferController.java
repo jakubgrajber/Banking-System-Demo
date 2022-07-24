@@ -1,20 +1,18 @@
 package com.smart.tech.start.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.smart.tech.start.client.AccountClient;
 import com.smart.tech.start.model.TransferA2AEntity;
 import com.smart.tech.start.model.TransferA2AService;
 import com.smart.tech.start.request.TransferA2ARequest;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.UUID;
+
+import static com.smart.tech.start.jwt.JwtUtil.getAuthorizationHeader;
 
 @RestController
 @RequestMapping("api/transfer")
@@ -22,9 +20,12 @@ import java.util.UUID;
 public class TransferController {
 
     private TransferA2AService transferA2AService;
+    private AccountClient accountClient;
 
     @PostMapping
-    public void createNewTransferRequest(@RequestBody TransferA2ARequest request) throws URISyntaxException, IOException, InterruptedException {
+    public ResponseEntity<String> createNewTransferRequest(@RequestBody TransferA2ARequest request, HttpServletRequest servletRequest) {
+
+        String header = getAuthorizationHeader(servletRequest);
 
         TransferA2AEntity transfer = new TransferA2AEntity(
                 UUID.fromString(request.getSenderAccountNumber()),
@@ -35,22 +36,12 @@ public class TransferController {
                 LocalDateTime.now()
         );
 
+        ResponseEntity<TransferA2ARequest> transferResponse = accountClient.sendTransferRequest(header, request);
+
+        TransferA2ARequest responseBody = transferResponse.getBody();
+        transfer.setStatus(responseBody.getTransactionStatus().toString());
+        transfer.setStatusDescription(responseBody.getStatusDescription());
         transferA2AService.save(transfer);
-
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonRequest = mapper.writeValueAsString(request);
-        HttpRequest.BodyPublisher requestBody = HttpRequest.BodyPublishers.ofString(jsonRequest);
-
-        HttpRequest transferRequest = HttpRequest.newBuilder()
-                .uri(new URI("http://bank-account:7070/api/account"))
-                .method("PATCH", requestBody).build();
-
-        HttpClient httpClient = HttpClient.newHttpClient();
-        httpClient.send(transferRequest, HttpResponse.BodyHandlers.ofString());
-    }
-
-    @PatchMapping
-    public void updateTransfer(){
-
+        return new ResponseEntity<>(responseBody.getStatusDescription(), transferResponse.getStatusCode());
     }
 }

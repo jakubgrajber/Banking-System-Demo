@@ -5,6 +5,7 @@ import lombok.*;
 import java.math.BigDecimal;
 
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
@@ -15,4 +16,6 @@ public class TransferA2ARequest {
     private BigDecimal amount;
     private String currencyCode;
     private String title;
+    private TransactionStatus transactionStatus;
+    private String statusDescription;
 }

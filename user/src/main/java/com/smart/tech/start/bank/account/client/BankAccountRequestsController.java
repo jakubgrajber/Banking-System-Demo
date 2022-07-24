@@ -20,7 +20,7 @@ import static com.smart.tech.start.jwt.JwtUtil.getAuthorizationHeader;
 @RequestMapping("api/user/bank-account")
 @AllArgsConstructor
 @Slf4j
-public class BankAccountRegistrationRequestController {
+public class BankAccountRequestsController {
 
     private AccountClient accountClient;
     private UserService userService;
