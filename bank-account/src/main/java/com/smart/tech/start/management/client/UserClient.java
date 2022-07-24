@@ -10,5 +10,5 @@ import java.util.UUID;
 public interface UserClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "api/bank-account?accountNumber={id}&userEmail={email}")
-    void updateUserWithNewAccountNumber(@PathVariable("id") UUID accountNumber, @PathVariable("email") String userEmail);
+    void updateUserWithNewAccountNumber(@RequestHeader(value = "Authorization") String header, @PathVariable("id") UUID accountNumber, @PathVariable("email") String userEmail);
 }
