@@ -24,7 +24,7 @@ public class CheckingBankAccount implements BankAccount {
     private final CurrencyRatesService ratesService;
     private Money balance;
     private Currency currency;
-    //private BigDecimal transactionRate = BigDecimal.ONE;
+    private BigDecimal transactionRate = BigDecimal.ONE;
 
     private static final Currency DEFAULT_CURRENCY = Currency.getInstance("PLN");
 
@@ -53,10 +53,9 @@ public class CheckingBankAccount implements BankAccount {
 
         Money moneyToChargeFromSenderAccount;
         if (!money.isSameCurrencyAs(this.balance)) {
-            moneyToChargeFromSenderAccount = ratesService.exchange(money, this.currency);
-//            CurrencyRatesServiceResponse ratesServiceResponse = ratesService.exchange(money, this.currency);
-//            moneyToChargeFromSenderAccount = ratesServiceResponse.getMoney();
-//            setTransactionRate(ratesServiceResponse.getRate());
+            CurrencyRatesServiceResponse ratesServiceResponse = ratesService.exchange(money, this.currency);
+            moneyToChargeFromSenderAccount = ratesServiceResponse.getMoney();
+            setTransactionRate(ratesServiceResponse.getRate());
 
         } else moneyToChargeFromSenderAccount = money;
         if (balance.compareTo(moneyToChargeFromSenderAccount) < 0)
@@ -68,10 +67,9 @@ public class CheckingBankAccount implements BankAccount {
 
     public void receive(Money money, BankAccount sender) {
         if (!money.isSameCurrencyAs(balance)) {
-            Money exchangedMoney = ratesService.exchange(money, this.currency);
-//            CurrencyRatesServiceResponse ratesServiceResponse  = ratesService.exchange(money, this.currency);
-//            Money exchangedMoney = ratesServiceResponse.getMoney();
-//            setTransactionRate(ratesServiceResponse.getRate());
+            CurrencyRatesServiceResponse ratesServiceResponse  = ratesService.exchange(money, this.currency);
+            Money exchangedMoney = ratesServiceResponse.getMoney();
+            setTransactionRate(ratesServiceResponse.getRate());
             balance = balance.add(exchangedMoney);
         } else {
             balance = balance.add(money);
@@ -94,13 +92,13 @@ public class CheckingBankAccount implements BankAccount {
         this.currency = currency;
     }
 
-//    public BigDecimal getTransactionRate() {
-//        return transactionRate;
-//    }
-//
-//    public void setTransactionRate(BigDecimal transactionRate) {
-//        this.transactionRate = transactionRate;
-//    }
+    public BigDecimal getTransactionRate() {
+        return transactionRate;
+    }
+
+    public void setTransactionRate(BigDecimal transactionRate) {
+        this.transactionRate = transactionRate;
+    }
 
     @Override
     public String toString() {

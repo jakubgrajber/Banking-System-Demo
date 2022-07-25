@@ -41,10 +41,10 @@ public class TransferController {
         TransferA2ARequest responseBody = transferResponse.getBody();
         transfer.setStatus(responseBody.getTransactionStatus().toString());
         transfer.setStatusDescription(responseBody.getStatusDescription());
-        transfer.setRecipientCurrencyCode(request.getRecipientCurrencyCode());
-        transfer.setRecipientCurrencyExchangeRate(request.getRecipientCurrencyExchangeRate());
-        transfer.setSenderCurrencyCode(request.getSenderCurrencyCode());
-        transfer.setSenderCurrencyExchangeRate(request.getSenderCurrencyExchangeRate());
+        transfer.setRecipientCurrencyCode(responseBody.getRecipientCurrencyCode());
+        transfer.setRecipientCurrencyExchangeRate(responseBody.getRecipientCurrencyExchangeRate());
+        transfer.setSenderCurrencyCode(responseBody.getSenderCurrencyCode());
+        transfer.setSenderCurrencyExchangeRate(responseBody.getSenderCurrencyExchangeRate());
         transferA2AService.save(transfer);
         return new ResponseEntity<>(responseBody.getStatusDescription(), transferResponse.getStatusCode());
     }

@@ -63,7 +63,6 @@ public class TransferController {
         CheckingBankAccount senderAccount = mapper.entityToDomainModel(senderAccountEntity);
         CheckingBankAccount recipientAccount = mapper.entityToDomainModel(recipientAccountEntity);
 
-//        Money moneyToTransfer = new Money(bodyRequest.getAmount(), Currency.getInstance(bodyRequest.getTransferCurrencyCode()));
         Money moneyToTransfer = new Money(bodyRequest.getAmount(), Currency.getInstance(bodyRequest.getTransferCurrencyCode()));
 
 
@@ -84,9 +83,9 @@ public class TransferController {
 
         bodyRequest.setTransactionStatus(DONE);
         bodyRequest.setRecipientCurrencyCode(recipientAccount.getCurrency().getCurrencyCode());
-//        bodyRequest.setRecipientCurrencyExchangeRate(recipientAccount.getTransactionRate());
+        bodyRequest.setRecipientCurrencyExchangeRate(recipientAccount.getTransactionRate());
         bodyRequest.setSenderCurrencyCode(senderAccount.getCurrency().getCurrencyCode());
-//        bodyRequest.setSenderCurrencyExchangeRate(senderAccount.getTransactionRate());
+        bodyRequest.setSenderCurrencyExchangeRate(senderAccount.getTransactionRate());
         return new ResponseEntity<>(bodyRequest, HttpStatus.OK);
     }
 }
