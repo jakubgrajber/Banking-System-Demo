@@ -31,7 +31,7 @@ public class TransferA2AEntity {
     @Column(nullable = false)
     private String transferCurrencyCode;
 
-    @Column(nullable = false)
+    @Column
     private String senderCurrencyCode;
 
     @Column
