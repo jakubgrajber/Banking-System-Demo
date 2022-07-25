@@ -43,7 +43,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         JwtUtil jwtUtil = new JwtUtil();
         UserEntity user = (UserEntity) authentication.getPrincipal();
 
-        String accessToken = jwtUtil.generateAccessToken(
+        String accessToken = JwtUtil.generateAccessToken(
                 user.getEmail(),
                 request.getRequestURL().toString(),
                 user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList())

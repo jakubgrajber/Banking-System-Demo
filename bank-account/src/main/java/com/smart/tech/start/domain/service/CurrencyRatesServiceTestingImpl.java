@@ -16,13 +16,15 @@ public class CurrencyRatesServiceTestingImpl implements CurrencyRatesService {
     private static final BigDecimal PLN_TO_EUR = new BigDecimal("0.21");
 
     @Override
-    public CurrencyRatesServiceResponse exchange(Money from, Currency to) {
+    public Money exchange(Money from, Currency to) {
+//    public CurrencyRatesServiceResponse exchange(Money from, Currency to) {
         BigDecimal newAmount;
         if (from.getCurrency().getCurrencyCode().equals("PLN")) {
             newAmount = from.getAmount().multiply(PLN_TO_EUR);
         } else {
             newAmount = from.getAmount().divide(PLN_TO_EUR, 8, RoundingMode.HALF_UP);
         }
-        return new CurrencyRatesServiceResponse(new Money(newAmount, to), null);
+        return new Money(newAmount, to);
+//        return new CurrencyRatesServiceResponse(new Money(newAmount, to), null);
     }
 }

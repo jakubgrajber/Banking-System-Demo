@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.smart.tech.start.jwt.JwtUtil;
 import com.smart.tech.start.user.account.management.entity.UserEntity;
 import com.smart.tech.start.user.account.management.service.UserService;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.smart.tech.start.jwt.JwtUtil.*;
 import static java.util.Arrays.stream;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
@@ -35,21 +37,19 @@ public class TokenController {
 
         String authorizationHeader = request.getHeader(AUTHORIZATION);
 
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+        if (authorizationHeader != null && isPrefixGood(authorizationHeader)) {
             try {
-                String refreshToken = authorizationHeader.substring("Bearer ".length());
-                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
-                JWTVerifier verifier = JWT.require(algorithm).build();
+                String refreshToken = removeHeaderPrefix(authorizationHeader);
+                JWTVerifier verifier = JWT.require(getAlgorithm()).build();
                 DecodedJWT decodedJWT = verifier.verify(refreshToken);
                 String username = decodedJWT.getSubject();
                 UserEntity user = userService.getUserByEmail(username);
 
-                String accessToken = JWT.create()
-                        .withSubject(user.getEmail())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
-                        .withIssuer(request.getRequestURL().toString())
-                        .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-                        .sign(algorithm);
+                String accessToken = generateAccessToken(
+                        user.getEmail(),
+                        request.getRequestURL().toString(),
+                        user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList())
+                );
 
                 Map<String, String> tokens = new HashMap<>();
                 tokens.put("access_token", accessToken);
