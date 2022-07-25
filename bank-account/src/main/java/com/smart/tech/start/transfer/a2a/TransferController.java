@@ -5,7 +5,6 @@ import com.smart.tech.start.domain.utilities.CheckingBankAccountMapper;
 import com.smart.tech.start.domain.utilities.Money;
 import com.smart.tech.start.management.entity.CheckingBankAccountEntity;
 import com.smart.tech.start.management.service.AccountService;
-import com.smart.tech.start.request.TransactionStatus;
 import com.smart.tech.start.request.TransferA2ARequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Currency;
-import java.util.Optional;
 
 import static com.smart.tech.start.jwt.JwtUtil.extractSubject;
 import static com.smart.tech.start.jwt.JwtUtil.getAuthorizationHeader;
@@ -65,7 +63,7 @@ public class TransferController {
         CheckingBankAccount senderAccount = mapper.entityToDomainModel(senderAccountEntity);
         CheckingBankAccount recipientAccount = mapper.entityToDomainModel(recipientAccountEntity);
 
-        Money moneyToTransfer = new Money(bodyRequest.getAmount(), Currency.getInstance(bodyRequest.getCurrencyCode()));
+        Money moneyToTransfer = new Money(bodyRequest.getAmount(), Currency.getInstance(bodyRequest.getTransferCurrencyCode()));
 
         try {
             senderAccount.send(moneyToTransfer, recipientAccount);
@@ -83,6 +81,10 @@ public class TransferController {
         accountService.updateBalance(recipientAccountEntity);
 
         bodyRequest.setTransactionStatus(DONE);
+        bodyRequest.setRecipientCurrencyCode(recipientAccount.getCurrency().getCurrencyCode());
+        bodyRequest.setRecipientCurrencyExchangeRate(recipientAccount.getTransactionRate());
+        bodyRequest.setSenderCurrencyCode(senderAccount.getCurrency().getCurrencyCode());
+        bodyRequest.setSenderCurrencyExchangeRate(senderAccount.getTransactionRate());
         return new ResponseEntity<>(bodyRequest, HttpStatus.OK);
     }
 }

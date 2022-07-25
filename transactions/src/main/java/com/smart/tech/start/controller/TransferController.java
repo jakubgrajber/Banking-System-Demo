@@ -30,7 +30,7 @@ public class TransferController {
         TransferA2AEntity transfer = new TransferA2AEntity(
                 UUID.fromString(request.getSenderAccountNumber()),
                 request.getAmount(),
-                request.getCurrencyCode(),
+                request.getTransferCurrencyCode(),
                 UUID.fromString(request.getRecipientAccountNumber()),
                 request.getTitle(),
                 LocalDateTime.now()
@@ -41,6 +41,10 @@ public class TransferController {
         TransferA2ARequest responseBody = transferResponse.getBody();
         transfer.setStatus(responseBody.getTransactionStatus().toString());
         transfer.setStatusDescription(responseBody.getStatusDescription());
+        transfer.setRecipientCurrencyCode(request.getRecipientCurrencyCode());
+        transfer.setRecipientCurrencyExchangeRate(request.getRecipientCurrencyExchangeRate());
+        transfer.setSenderCurrencyCode(request.getSenderCurrencyCode());
+        transfer.setSenderCurrencyExchangeRate(request.getSenderCurrencyExchangeRate());
         transferA2AService.save(transfer);
         return new ResponseEntity<>(responseBody.getStatusDescription(), transferResponse.getStatusCode());
     }

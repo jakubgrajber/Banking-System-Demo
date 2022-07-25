@@ -29,7 +29,13 @@ public class TransferA2AEntity {
     private BigDecimal amount;
 
     @Column(nullable = false)
-    private String currencyCode;
+    private String transferCurrencyCode;
+
+    @Column(nullable = false)
+    private String senderCurrencyCode;
+
+    @Column
+    private BigDecimal senderCurrencyExchangeRate;
 
     @Column(nullable = false)
     private UUID recipientAccountNumber;
@@ -50,12 +56,12 @@ public class TransferA2AEntity {
     private String recipientCurrencyCode;
 
     @Column
-    private double currencyExchangeRate;
+    private BigDecimal recipientCurrencyExchangeRate;
 
     public TransferA2AEntity(UUID senderAccountNumber, BigDecimal amount, String currencyCode, UUID recipientAccountNumber, String title, LocalDateTime requestedAt) {
         this.senderAccountNumber = senderAccountNumber;
         this.amount = amount;
-        this.currencyCode = currencyCode;
+        this.transferCurrencyCode = currencyCode;
         this.recipientAccountNumber = recipientAccountNumber;
         this.title = title;
         this.requestedAt = requestedAt;
