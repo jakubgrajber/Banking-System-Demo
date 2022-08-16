@@ -57,7 +57,7 @@ public class AccountController {
         if (!bodyRequest.getUserEmail().equals(userEmail)) {
             return new ResponseEntity<>("The requested email and does not match the issuer's email.", HttpStatus.FORBIDDEN);
         } else {
-            if (accountService.findById(bodyRequest.getAccountNumber().toString()).getBalance().equals(new BigDecimal(BigInteger.ZERO))){
+            if (!accountService.findById(bodyRequest.getAccountNumber().toString()).getBalance().equals(new BigDecimal(BigInteger.ZERO))){
                 return new ResponseEntity<>("The account with balance greater than zero cannot be removed.", HttpStatus.FORBIDDEN);
             }
             accountService.delete(bodyRequest.getAccountNumber());
